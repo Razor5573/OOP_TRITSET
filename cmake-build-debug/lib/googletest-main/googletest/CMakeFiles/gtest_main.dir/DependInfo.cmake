@@ -1,10 +1,14 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
   "CXX"
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "C:/Users/nikit/CLionProjects/tritset1/lib/googletest-main/googletest/src/gtest_main.cc" "C:/Users/nikit/CLionProjects/tritset1/cmake-build-debug/lib/googletest-main/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj"
+  "C:/progects/c++/OOP_TRITSET/lib/googletest-main/googletest/src/gtest_main.cc" "C:/progects/c++/OOP_TRITSET/cmake-build-debug/lib/googletest-main/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -14,9 +18,13 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "../lib/googletest-main/googletest"
   )
 
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  )
+
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "C:/Users/nikit/CLionProjects/tritset1/cmake-build-debug/lib/googletest-main/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
+  "C:/progects/c++/OOP_TRITSET/cmake-build-debug/lib/googletest-main/googletest/CMakeFiles/gtest.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

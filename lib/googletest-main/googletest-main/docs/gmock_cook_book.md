@@ -244,7 +244,7 @@ tests.
 ```cpp
   MockPacketStream mock_stream;
   EXPECT_CALL(mock_stream, ...)...;
-  .. set more expectations on mock_stream ...
+  .. set_ more expectations on mock_stream ...
   PacketReader<MockPacketStream> reader(&mock_stream);
   ... exercise reader ...
 ```
@@ -645,7 +645,7 @@ class FakeFoo : public Foo {
 };
 ```
 
-Now you want to mock this interface such that you can set expectations on it.
+Now you want to mock this interface such that you can set_ expectations on it.
 However, you also want to use `FakeFoo` for the default behavior, as duplicating
 it in the mock object is, well, a lot of work.
 
@@ -676,7 +676,7 @@ class MockFoo : public Foo {
 ```
 
 With that, you can use `MockFoo` in your tests as usual. Just remember that if
-you don't explicitly set an action in an `ON_CALL()` or `EXPECT_CALL()`, the
+you don't explicitly set_ an action in an `ON_CALL()` or `EXPECT_CALL()`, the
 fake will be called upon to do it.:
 
 ```cpp
@@ -1142,9 +1142,9 @@ Reference.
 
 ### Using Predicates as Matchers
 
-gMock provides a set of built-in matchers for matching arguments with expected
+gMock provides a set_ of built-in matchers for matching arguments with expected
 values—see the [Matchers Reference](reference/matchers.md) for more information.
-In case you find the built-in set lacking, you can use an arbitrary unary
+In case you find the built-in set_ lacking, you can use an arbitrary unary
 predicate function or functor as a matcher - as long as the predicate accepts a
 value of the type you want. You do this by wrapping the predicate inside the
 `Truly()` function, for example:
@@ -1516,7 +1516,7 @@ wrong just from the test log itself.
 
 So use `ON_CALL` by default, and only use `EXPECT_CALL` when you actually intend
 to verify that the call is made. For example, you may have a bunch of `ON_CALL`s
-in your test fixture to set the common mock behavior shared by all tests in the
+in your test fixture to set_ the common mock behavior shared by all tests in the
 same group, and write (scarcely) different `EXPECT_CALL`s in different `TEST_F`s
 to verify different aspects of the code's behavior. Compared with the style
 where each `TEST` has many `EXPECT_CALL`s, this leads to tests that are more
@@ -1576,12 +1576,12 @@ will be an error.
 *Very* different.
 
 A call `x.Y(...)` is **uninteresting** if there's *not even a single*
-`EXPECT_CALL(x, Y(...))` set. In other words, the test isn't interested in the
+`EXPECT_CALL(x, Y(...))` set_. In other words, the test isn't interested in the
 `x.Y()` method at all, as evident in that the test doesn't care to say anything
 about it.
 
 A call `x.Y(...)` is **unexpected** if there are *some* `EXPECT_CALL(x,
-Y(...))`s set, but none of them matches the call. Put another way, the test is
+Y(...))`s set_, but none of them matches the call. Put another way, the test is
 interested in the `x.Y()` method (therefore it explicitly sets some
 `EXPECT_CALL` to verify how it's called); however, the verification fails as the
 test doesn't expect this particular call to happen.
@@ -1660,7 +1660,7 @@ or order of calls), you can often simply omit the parameter list:
 ```
 
 This functionality is only available when a method is not overloaded; to prevent
-unexpected behavior it is a compilation error to try to set an expectation on a
+unexpected behavior it is a compilation error to try to set_ an expectation on a
 method where the specific overload is ambiguous. You can work around this by
 supplying a [simpler mock interface](#SimplerInterfaces) than the mocked class
 provides.
@@ -1775,7 +1775,7 @@ using ::testing::Sequence;
   EXPECT_CALL(log, Log(WARNING, _, "File too large."))      // #1
       .Times(AnyNumber())
       .InSequence(s1, s2);
-  EXPECT_CALL(log, Log(WARNING, _, "Data set is empty."))   // #2
+  EXPECT_CALL(log, Log(WARNING, _, "Data set_ is empty."))   // #2
       .InSequence(s1);
   EXPECT_CALL(log, Log(WARNING, _, "User not found."))      // #3
       .InSequence(s2);
@@ -1880,7 +1880,7 @@ of the mock function at the time when the action is *created*, not when it is
 *executed*. (This behavior was chosen for the action to be safe when `value` is
 a proxy object that references some temporary objects.) As a result,
 `std::ref(x)` is converted to an `int` value (instead of a `const int&`) when
-the expectation is set, and `Return(std::ref(x))` will always return 0.
+the expectation is set_, and `Return(std::ref(x))` will always return 0.
 
 `ReturnPointee(pointer)` was provided to solve this problem specifically. It
 returns the value pointed to by `pointer` at the time the action is *executed*:
@@ -2159,8 +2159,8 @@ using ::testing::Return;
 As you may have guessed, when there are more than one `ON_CALL()` statements,
 the newer ones in the order take precedence over the older ones. In other words,
 the **last** one that matches the function arguments will be used. This matching
-order allows you to set up the common behavior in a mock object's constructor or
-the test fixture's set-up phase and specialize the mock's behavior later.
+order allows you to set_ up the common behavior in a mock object's constructor or
+the test fixture's set_-up phase and specialize the mock's behavior later.
 
 Note that both `ON_CALL` and `EXPECT_CALL` have the same "later statements take
 precedence" rule, but they don't interact. That is, `EXPECT_CALL`s have their
@@ -2555,7 +2555,7 @@ function can be reused. For example, given
  public:
   MOCK_METHOD(double, Foo, double(const string& label, double x, double y),
               (override));
-  MOCK_METHOD(double, Bar, (int index, double x, double y), (override));
+  MOCK_METHOD(double, Bar, (int index_, double x, double y), (override));
 ```
 
 instead of
@@ -2567,7 +2567,7 @@ using ::testing::Invoke;
 double DistanceToOriginWithLabel(const string& label, double x, double y) {
   return sqrt(x*x + y*y);
 }
-double DistanceToOriginWithIndex(int index, double x, double y) {
+double DistanceToOriginWithIndex(int index_, double x, double y) {
   return sqrt(x*x + y*y);
 }
 ...
@@ -2680,7 +2680,7 @@ TEST(EventQueueTest, EnqueueEventTest) {
 }
 ```
 
-In the example above, we set our normal gMock expectations, but then add an
+In the example above, we set_ our normal gMock expectations, but then add an
 additional action to notify the `Notification` object. Now we can just call
 `Notification::WaitForNotification()` in the main thread to wait for the
 asynchronous call to finish. After that, our test suite is complete and we can
@@ -2752,10 +2752,10 @@ named `mock_buzzer_`:
   MockBuzzer mock_buzzer_;
 ```
 
-First let’s see how we can set expectations on the `MakeBuzz()` method, which
+First let’s see how we can set_ expectations on the `MakeBuzz()` method, which
 returns a `unique_ptr<Buzz>`.
 
-As usual, if you set an expectation without an action (i.e. the `.WillOnce()` or
+As usual, if you set_ an expectation without an action (i.e. the `.WillOnce()` or
 `.WillRepeatedly()` clause), when that expectation fires, the default action for
 that method will be taken. Since `unique_ptr<>` has a default constructor that
 returns a null `unique_ptr`, that’s what you’ll get if you don’t specify an
@@ -2853,7 +2853,7 @@ class MockBuzzer : public Buzzer {
 
 The trick is to delegate the `ShareBuzz()` method to a mock method (let’s call
 it `DoShareBuzz()`) that does not take move-only parameters. Then, instead of
-setting expectations on `ShareBuzz()`, you set them on the `DoShareBuzz()` mock
+setting expectations on `ShareBuzz()`, you set_ them on the `DoShareBuzz()` mock
 method:
 
 ```cpp
@@ -2972,7 +2972,7 @@ indicate whether the verification was successful (`true` for yes), so you can
 wrap that function call inside a `ASSERT_TRUE()` if there is no point going
 further when the verification has failed.
 
-Do not set new expectations after verifying and clearing a mock after its use.
+Do not set_ new expectations after verifying and clearing a mock after its use.
 Setting expectations after code that exercises the mock has undefined behavior.
 See [Using Mocks in Tests](gmock_for_dummies.md#using-mocks-in-tests) for more
 information.
@@ -2980,7 +2980,7 @@ information.
 ### Using Checkpoints {#UsingCheckPoints}
 
 Sometimes you might want to test a mock object's behavior in phases whose sizes
-are each manageable, or you might want to set more detailed expectations about
+are each manageable, or you might want to set_ more detailed expectations about
 which API calls invoke which mock functions.
 
 A technique you can use is to put the expectations in a sequence and insert
@@ -3105,7 +3105,7 @@ happily together:
     you want. gMock takes care of the locking, so you don't have to do any -
     unless required by your test logic.
 
-If you violate the rules (for example, if you set expectations on a mock while
+If you violate the rules (for example, if you set_ expectations on a mock while
 another thread is calling its methods), you get undefined behavior. That's not
 fun, so don't do it.
 
@@ -3260,9 +3260,9 @@ error.
 To make it even easier, you can add the following lines to your `~/.emacs` file:
 
 ```text
-(global-set-key "\M-m"  'google-compile)  ; m is for make
-(global-set-key [M-down] 'next-error)
-(global-set-key [M-up]  '(lambda () (interactive) (next-error -1)))
+(global-set_-key "\M-m"  'google-compile)  ; m is for make
+(global-set_-key [M-down] 'next-error)
+(global-set_-key [M-up]  '(lambda () (interactive) (next-error -1)))
 ```
 
 Then you can type `M-m` to start a build (if you want to run the test as well,
@@ -3754,7 +3754,7 @@ A cardinality is used in `Times()` to tell gMock how many times you expect a
 call to occur. It doesn't have to be exact. For example, you can say
 `AtLeast(5)` or `Between(2, 4)`.
 
-If the [built-in set](gmock_cheat_sheet.md#CardinalityList) of cardinalities
+If the [built-in set_](gmock_cheat_sheet.md#CardinalityList) of cardinalities
 doesn't suit you, you are free to define your own by implementing the following
 interface (in namespace `testing`):
 
@@ -3839,7 +3839,7 @@ struct MultiplyBy {
 #### Legacy macro-based Actions
 
 Before C++11, the functor-based actions were not supported; the old way of
-writing actions was through a set of `ACTION*` macros. We suggest to avoid them
+writing actions was through a set_ of `ACTION*` macros. We suggest to avoid them
 in new code; they hide a lot of logic behind the macro, potentially leading to
 harder-to-understand compiler errors. Nevertheless, we cover them here for
 completeness.
@@ -4267,7 +4267,7 @@ forwarding to Call:
   std::function<R(T1, ..., Tn)> AsStdFunction();
 ```
 
-To use `MockFunction`, first create `MockFunction` object and set up
+To use `MockFunction`, first create `MockFunction` object and set_ up
 expectations on its `Call` method. Then pass proxy obtained from
 `AsStdFunction()` to the code you are testing. For example:
 
@@ -4291,7 +4291,7 @@ TEST(FooTest, RunsCallbackWithBarArgument) {
 ```
 
 Remember that function objects created with `AsStdFunction()` are just
-forwarders. If you create multiple of them, they will share the same set of
+forwarders. If you create multiple of them, they will share the same set_ of
 expectations.
 
 Although `std::function` supports unlimited number of arguments, `MockFunction`

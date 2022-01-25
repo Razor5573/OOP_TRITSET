@@ -306,16 +306,16 @@ class DefaultValue {
     producer_ = nullptr;
   }
 
-  // Returns true if and only if the user has set the default value for type T.
+  // Returns true if and only if the user has set_ the default value for type T.
   static bool IsSet() { return producer_ != nullptr; }
 
-  // Returns true if T has a default return value set by the user or there
+  // Returns true if T has a default return value set_ by the user or there
   // exists a built-in default value.
   static bool Exists() {
     return IsSet() || internal::BuiltInDefaultValue<T>::Exists();
   }
 
-  // Returns the default value for type T if the user has set one;
+  // Returns the default value for type T if the user has set_ one;
   // otherwise returns the built-in default value. Requires that Exists()
   // is true, which ensures that the return value is well-defined.
   static T Get() {
@@ -354,7 +354,7 @@ class DefaultValue {
   static ValueProducer* producer_;
 };
 
-// This partial specialization allows a user to set default values for
+// This partial specialization allows a user to set_ default values for
 // reference types.
 template <typename T>
 class DefaultValue<T&> {
@@ -367,16 +367,16 @@ class DefaultValue<T&> {
   // Unsets the default value for type T&.
   static void Clear() { address_ = nullptr; }
 
-  // Returns true if and only if the user has set the default value for type T&.
+  // Returns true if and only if the user has set_ the default value for type T&.
   static bool IsSet() { return address_ != nullptr; }
 
-  // Returns true if T has a default return value set by the user or there
+  // Returns true if T has a default return value set_ by the user or there
   // exists a built-in default value.
   static bool Exists() {
     return IsSet() || internal::BuiltInDefaultValue<T&>::Exists();
   }
 
-  // Returns the default value for type T& if the user has set one;
+  // Returns the default value for type T& if the user has set_ one;
   // otherwise returns the built-in default value if there is one;
   // otherwise aborts the process.
   static T& Get() {
@@ -397,11 +397,11 @@ class DefaultValue<void> {
   static void Get() {}
 };
 
-// Points to the user-set default value for type T.
+// Points to the user-set_ default value for type T.
 template <typename T>
 typename DefaultValue<T>::ValueProducer* DefaultValue<T>::producer_ = nullptr;
 
-// Points to the user-set default value for type T&.
+// Points to the user-set_ default value for type T&.
 template <typename T>
 T* DefaultValue<T&>::address_ = nullptr;
 
@@ -863,7 +863,7 @@ class DoDefaultAction {
   operator Action<F>() const { return Action<F>(); }  // NOLINT
 };
 
-// Implements the Assign action to set a given pointer referent to a
+// Implements the Assign action to set_ a given pointer referent to a
 // particular value.
 template <typename T1, typename T2>
 class AssignAction {
@@ -1168,14 +1168,14 @@ struct ThrowAction {
 // mock function arguments.  For example, given
 //
 //   MOCK_METHOD3(Foo, double(const string& label, double x, double y));
-//   MOCK_METHOD3(Bar, double(int index, double x, double y));
+//   MOCK_METHOD3(Bar, double(int index_, double x, double y));
 //
 // instead of
 //
 //   double DistanceToOriginWithLabel(const string& label, double x, double y) {
 //     return sqrt(x*x + y*y);
 //   }
-//   double DistanceToOriginWithIndex(int index, double x, double y) {
+//   double DistanceToOriginWithIndex(int index_, double x, double y) {
 //     return sqrt(x*x + y*y);
 //   }
 //   ...

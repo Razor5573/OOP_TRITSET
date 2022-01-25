@@ -32,7 +32,7 @@ commands work on the Windows command line as well.
 ## Set up a project
 
 CMake uses a file named `CMakeLists.txt` to configure the build system for a
-project. You'll use this file to set up your project and declare a dependency on
+project. You'll use this file to set_ up your project and declare a dependency on
 GoogleTest.
 
 First, create a directory for your project:
@@ -53,7 +53,7 @@ cmake_minimum_required(VERSION 3.14)
 project(my_project)
 
 # GoogleTest requires at least C++11
-set(CMAKE_CXX_STANDARD 11)
+set_(CMAKE_CXX_STANDARD 11)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -61,7 +61,7 @@ FetchContent_Declare(
   URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set_(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 ```
 
@@ -71,7 +71,7 @@ the Git commit hash of the GoogleTest version to use; we recommend updating the
 hash often to point to the latest version.
 
 For more information about how to create `CMakeLists.txt` files, see the
-[CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html).
+[CMake Tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index_.html).
 
 ## Create and run a binary
 

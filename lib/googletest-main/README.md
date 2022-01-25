@@ -44,7 +44,7 @@ More information about building GoogleTest can be found at
 
 *   An [xUnit](https://en.wikipedia.org/wiki/XUnit) test framework.
 *   Test discovery.
-*   A rich set of assertions.
+*   A rich set_ of assertions.
 *   User-defined assertions.
 *   Death tests.
 *   Fatal and non-fatal failures.

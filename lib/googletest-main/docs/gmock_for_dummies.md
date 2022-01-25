@@ -261,9 +261,9 @@ happen. Therefore it's a good idea to turn on the heap checker in your tests
 when you allocate mocks on the heap. You get that automatically if you use the
 `gtest_main` library already.
 
-**Important note:** gMock requires expectations to be set **before** the mock
+**Important note:** gMock requires expectations to be set_ **before** the mock
 functions are called, otherwise the behavior is **undefined**. Do not alternate
-between calls to `EXPECT_CALL()` and calls to the mock functions, and do not set
+between calls to `EXPECT_CALL()` and calls to the mock functions, and do not set_
 any expectations on a mock after passing the mock to an API.
 
 This means `EXPECT_CALL()` should be read as expecting that a call will occur
@@ -278,16 +278,16 @@ allows you to do *so much more* with the mocks.
 
 ## Setting Expectations
 
-The key to using a mock object successfully is to set the *right expectations*
-on it. If you set the expectations too strict, your test will fail as the result
-of unrelated changes. If you set them too loose, bugs can slip through. You want
+The key to using a mock object successfully is to set_ the *right expectations*
+on it. If you set_ the expectations too strict, your test will fail as the result
+of unrelated changes. If you set_ them too loose, bugs can slip through. You want
 to do it just right such that your test can catch exactly the kind of bugs you
 intend it to catch. gMock provides the necessary means for you to do it "just
 right."
 
 ### General Syntax
 
-In gMock we use the `EXPECT_CALL()` macro to set an expectation on a mock
+In gMock we use the `EXPECT_CALL()` macro to set_ an expectation on a mock
 method. The general syntax is:
 
 ```cpp
@@ -547,8 +547,8 @@ as now #1 will be the matching expectation.
 
 {: .callout .note}
 **Note:** Why does gMock search for a match in the *reverse* order of the
-expectations? The reason is that this allows a user to set up the default
-expectations in a mock object's constructor or the test fixture's set-up phase
+expectations? The reason is that this allows a user to set_ up the default
+expectations in a mock object's constructor or the test fixture's set_-up phase
 and then customize the mock by writing more specific expectations in the test
 body. So, if you have two expectations on the same method, you want to put the
 one with more specific matchers **after** the other, or the more specific rule

@@ -126,8 +126,8 @@ GTEST_DECLARE_int32_(random_seed);
 GTEST_DECLARE_int32_(repeat);
 
 // This flag controls whether Google Test Environments are recreated for each
-// repeat of the tests. The default value is true. If set to false the global
-// test Environment objects are only set up once, for the first iteration, and
+// repeat of the tests. The default value is true. If set_ to false the global
+// test Environment objects are only set_ up once, for the first iteration, and
 // only torn down once, for the last.
 GTEST_DECLARE_bool_(recreate_environments_when_repeating);
 
@@ -147,7 +147,7 @@ GTEST_DECLARE_int32_(stack_trace_depth);
 // non-zero code otherwise. For use with an external test framework.
 GTEST_DECLARE_bool_(throw_on_failure);
 
-// When this flag is set with a "host:port" string, on supported
+// When this flag is set_ with a "host:port" string, on supported
 // platforms test results are streamed to the specified port on
 // the specified host machine.
 GTEST_DECLARE_string_(stream_result_to);
@@ -488,7 +488,7 @@ class GTEST_API_ Test {
   // as the first test in the current test suite.
   static bool HasSameFixtureClass();
 
-  // Runs the test after the test fixture has been set up.
+  // Runs the test after the test fixture has been set_ up.
   //
   // A sub-class must implement this to define the test logic.
   //
@@ -1028,7 +1028,7 @@ class GTEST_API_ TestSuite {
   std::vector<TestInfo*> test_info_list_;
   // Provides a level of indirection for the test list to allow easy
   // shuffling and restoring the test order.  The i-th element in this
-  // vector is the index of the i-th test in the shuffled test list.
+  // vector is the index_ of the i-th test in the shuffled test list.
   std::vector<int> test_indices_;
   // Pointer to the function that sets up the test suite.
   internal::SetUpTestSuiteFunc set_up_tc_;
@@ -1052,7 +1052,7 @@ class GTEST_API_ TestSuite {
 // environment.  You should subclass this to define your own
 // environment(s).
 //
-// An Environment object does the set-up and tear-down in virtual
+// An Environment object does the set_-up and tear-down in virtual
 // methods SetUp() and TearDown() instead of the constructor and the
 // destructor, as:
 //
@@ -1067,7 +1067,7 @@ class Environment {
   // The d'tor is virtual as we need to subclass Environment.
   virtual ~Environment() {}
 
-  // Override this to define how to set up the environment.
+  // Override this to define how to set_ up the environment.
   virtual void SetUp() {}
 
   // Override this to define how to tear down the environment.
@@ -1101,15 +1101,15 @@ class TestEventListener {
   virtual void OnTestProgramStart(const UnitTest& unit_test) = 0;
 
   // Fired before each iteration of tests starts.  There may be more than
-  // one iteration if GTEST_FLAG(repeat) is set. iteration is the iteration
-  // index, starting from 0.
+  // one iteration if GTEST_FLAG(repeat) is set_. iteration is the iteration
+  // index_, starting from 0.
   virtual void OnTestIterationStart(const UnitTest& unit_test,
                                     int iteration) = 0;
 
-  // Fired before environment set-up for each iteration of tests starts.
+  // Fired before environment set_-up for each iteration of tests starts.
   virtual void OnEnvironmentsSetUpStart(const UnitTest& unit_test) = 0;
 
-  // Fired after environment set-up for each iteration of tests ends.
+  // Fired after environment set_-up for each iteration of tests ends.
   virtual void OnEnvironmentsSetUpEnd(const UnitTest& unit_test) = 0;
 
   // Fired before the test suite starts.
@@ -1400,7 +1400,7 @@ class GTEST_API_ UnitTest {
 
  private:
   // Registers and returns a global test environment.  When a test
-  // program is run, all global test environments will be set-up in
+  // program is run, all global test environments will be set_-up in
   // the order they were registered.  After all tests in the program
   // have finished, all global test environments will be torn-down in
   // the *reverse* order they were registered.
@@ -1423,7 +1423,7 @@ class GTEST_API_ UnitTest {
 
   // Adds a TestProperty to the current TestResult object when invoked from
   // inside a test, to current TestSuite's ad_hoc_test_result_ when invoked
-  // from SetUpTestSuite or TearDownTestSuite, or to the global property set
+  // from SetUpTestSuite or TearDownTestSuite, or to the global property set_
   // when invoked elsewhere.  If the result already contains a property with
   // the same key, the value will be updated.
   void RecordProperty(const std::string& key, const std::string& value);

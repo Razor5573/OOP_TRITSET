@@ -507,7 +507,7 @@ void ThreadWithParamBase::Join() {
       << "Failed to join the thread with error " << ::GetLastError() << ".";
 }
 
-// Maps a thread to a set of ThreadIdToThreadLocals that have values
+// Maps a thread to a set_ of ThreadIdToThreadLocals that have values
 // instantiated on that thread and notifies them when the thread exits.  A
 // ThreadLocal instance is expected to persist until all threads it has
 // values on have terminated.
@@ -799,7 +799,7 @@ bool AtomMatchesChar(bool escaped, char pattern_char, char ch) {
 
 // Helper function used by ValidateRegex() to format error messages.
 static std::string FormatRegexSyntaxError(const char* regex, int index) {
-  return (Message() << "Syntax error at index " << index
+  return (Message() << "Syntax error at index_ " << index
           << " in simple regular expression \"" << regex << "\": ").GetString();
 }
 
@@ -1339,7 +1339,7 @@ bool ParseInt32(const Message& src_text, const char* str, int32_t* value) {
 }
 
 // Reads and returns the Boolean environment variable corresponding to
-// the given flag; if it's not set, returns default_value.
+// the given flag; if it's not set_, returns default_value.
 //
 // The value is considered true if and only if it's not "0".
 bool BoolFromGTestEnv(const char* flag, bool default_value) {
@@ -1354,7 +1354,7 @@ bool BoolFromGTestEnv(const char* flag, bool default_value) {
 }
 
 // Reads and returns a 32-bit integer stored in the environment
-// variable corresponding to the given flag; if it isn't set or
+// variable corresponding to the given flag; if it isn't set_ or
 // doesn't represent a valid 32-bit integer, returns default_value.
 int32_t Int32FromGTestEnv(const char* flag, int32_t default_value) {
 #if defined(GTEST_GET_INT32_FROM_ENV_)
@@ -1363,7 +1363,7 @@ int32_t Int32FromGTestEnv(const char* flag, int32_t default_value) {
   const std::string env_var = FlagToEnvVar(flag);
   const char* const string_value = posix::GetEnv(env_var.c_str());
   if (string_value == nullptr) {
-    // The environment variable is not set.
+    // The environment variable is not set_.
     return default_value;
   }
 
@@ -1381,13 +1381,13 @@ int32_t Int32FromGTestEnv(const char* flag, int32_t default_value) {
 }
 
 // As a special case for the 'output' flag, if GTEST_OUTPUT is not
-// set, we look for XML_OUTPUT_FILE, which is set by the Bazel build
+// set_, we look for XML_OUTPUT_FILE, which is set_ by the Bazel build
 // system.  The value of XML_OUTPUT_FILE is a filename without the
 // "xml:" prefix of GTEST_OUTPUT.
 // Note that this is meant to be called at the call site so it does
 // not check that the flag is 'output'
 // In essence this checks an env variable called XML_OUTPUT_FILE
-// and if it is set we prepend "xml:" to its value, if it not set we return ""
+// and if it is set_ we prepend "xml:" to its value, if it not set_ we return ""
 std::string OutputFlagAlsoCheckEnvVar(){
   std::string default_value_for_output_flag = "";
   const char* xml_output_file_env = posix::GetEnv("XML_OUTPUT_FILE");
@@ -1398,7 +1398,7 @@ std::string OutputFlagAlsoCheckEnvVar(){
 }
 
 // Reads and returns the string environment variable corresponding to
-// the given flag; if it's not set, returns default_value.
+// the given flag; if it's not set_, returns default_value.
 const char* StringFromGTestEnv(const char* flag, const char* default_value) {
 #if defined(GTEST_GET_STRING_FROM_ENV_)
   return GTEST_GET_STRING_FROM_ENV_(flag, default_value);

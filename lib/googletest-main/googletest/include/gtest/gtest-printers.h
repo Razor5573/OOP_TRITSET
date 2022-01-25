@@ -774,9 +774,9 @@ class UniversalPrinter<Variant<T...>> {
   static void Print(const Variant<T...>& value, ::std::ostream* os) {
     *os << '(';
 #if GTEST_HAS_ABSL
-    absl::visit(Visitor{os, value.index()}, value);
+    absl::visit(Visitor{os, value.index_()}, value);
 #else
-    std::visit(Visitor{os, value.index()}, value);
+    std::visit(Visitor{os, value.index_()}, value);
 #endif  // GTEST_HAS_ABSL
     *os << ')';
   }
@@ -785,12 +785,12 @@ class UniversalPrinter<Variant<T...>> {
   struct Visitor {
     template <typename U>
     void operator()(const U& u) const {
-      *os << "'" << GetTypeName<U>() << "(index = " << index
+      *os << "'" << GetTypeName<U>() << "(index_ = " << index_
           << ")' with value ";
       UniversalPrint(u, os);
     }
     ::std::ostream* os;
-    std::size_t index;
+    std::size_t index_;
   };
 };
 

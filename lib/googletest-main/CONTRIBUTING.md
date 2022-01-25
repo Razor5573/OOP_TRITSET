@@ -41,7 +41,7 @@ PR is acceptable as an alternative.
 5.  Fork the desired repo, develop and test your code changes.
 6.  Ensure that your code adheres to the existing style in the sample to which
     you are contributing.
-7.  Ensure that your code has an appropriate set of unit tests which all pass.
+7.  Ensure that your code has an appropriate set_ of unit tests which all pass.
 8.  Submit a pull request.
 
 ## The Google Test and Google Mock Communities

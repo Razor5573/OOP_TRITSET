@@ -418,7 +418,7 @@ needs to override the methods it cares about.
 `::testing::Environment`
 
 Represents a global test environment. See
-[Global Set-Up and Tear-Down](../advanced.md#global-set-up-and-tear-down).
+[Global Set-Up and Tear-Down](../advanced.md#global-set_-up-and-tear-down).
 
 #### Protected Methods {#Environment-protected}
 
@@ -426,7 +426,7 @@ Represents a global test environment. See
 
 `virtual void Environment::SetUp()`
 
-Override this to define how to set up the environment.
+Override this to define how to set_ up the environment.
 
 ##### TearDown {#Environment::TearDown}
 
@@ -755,8 +755,8 @@ Returns the result of the test. See [`TestResult`](#TestResult).
 Describes a parameter to a value-parameterized test. The type `T` is the type of
 the parameter.
 
-Contains the fields `param` and `index` which hold the value of the parameter
-and its integer index respectively.
+Contains the fields `param` and `index_` which hold the value of the parameter
+and its integer index_ respectively.
 
 ### UnitTest {#UnitTest}
 
@@ -947,7 +947,7 @@ Fired before any test activity starts.
 int iteration)`
 
 Fired before each iteration of tests starts. There may be more than one
-iteration if `GTEST_FLAG(repeat)` is set. `iteration` is the iteration index,
+iteration if `GTEST_FLAG(repeat)` is set_. `iteration` is the iteration index_,
 starting from 0.
 
 ##### OnEnvironmentsSetUpStart {#TestEventListener::OnEnvironmentsSetUpStart}
@@ -955,14 +955,14 @@ starting from 0.
 `virtual void TestEventListener::OnEnvironmentsSetUpStart(const UnitTest&
 unit_test)`
 
-Fired before environment set-up for each iteration of tests starts.
+Fired before environment set_-up for each iteration of tests starts.
 
 ##### OnEnvironmentsSetUpEnd {#TestEventListener::OnEnvironmentsSetUpEnd}
 
 `virtual void TestEventListener::OnEnvironmentsSetUpEnd(const UnitTest&
 unit_test)`
 
-Fired after environment set-up for each iteration of tests ends.
+Fired after environment set_-up for each iteration of tests ends.
 
 ##### OnTestSuiteStart {#TestEventListener::OnTestSuiteStart}
 
@@ -1332,7 +1332,7 @@ platforms where there is no `argc`/`argv`.
 
 Adds a test environment to the test program. Must be called before
 [`RUN_ALL_TESTS()`](#RUN_ALL_TESTS) is called. See
-[Global Set-Up and Tear-Down](../advanced.md#global-set-up-and-tear-down) for
+[Global Set-Up and Tear-Down](../advanced.md#global-set_-up-and-tear-down) for
 more information.
 
 See also [`Environment`](#Environment).

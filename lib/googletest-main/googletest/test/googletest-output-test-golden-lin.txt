@@ -13,7 +13,7 @@ Expected equality of these values:
 Stack trace: (omitted)
 
 [0;32m[==========] [mRunning 89 tests from 42 test suites.
-[0;32m[----------] [mGlobal test environment set-up.
+[0;32m[----------] [mGlobal test environment set_-up.
 FooEnvironment::SetUp() called.
 BarEnvironment::SetUp() called.
 [0;32m[----------] [m1 test from ADeathTest
@@ -1114,7 +1114,7 @@ Stack trace: (omitted)
 
 [mNote: Google Test filter = FatalFailureTest.*:LoggingTest.*
 [==========] Running 4 tests from 2 test suites.
-[----------] Global test environment set-up.
+[----------] Global test environment set_-up.
 [----------] 3 tests from FatalFailureTest
 [ RUN      ] FatalFailureTest.FatalFailureInSubroutine
 (expecting a failure that x should be 1)
@@ -1177,7 +1177,7 @@ Stack trace: (omitted)
  4 FAILED TESTS
 Note: Google Test filter = *DISABLED_*
 [==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
+[----------] Global test environment set_-up.
 [----------] 1 test from DisabledTestsWarningTest
 [ RUN      ] DisabledTestsWarningTest.DISABLED_AlsoRunDisabledTestsFlagSuppressesWarning
 [       OK ] DisabledTestsWarningTest.DISABLED_AlsoRunDisabledTestsFlagSuppressesWarning
@@ -1187,7 +1187,7 @@ Note: Google Test filter = *DISABLED_*
 Note: Google Test filter = PassingTest.*
 Note: This is test shard 2 of 2.
 [==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
+[----------] Global test environment set_-up.
 [----------] 1 test from PassingTest
 [ RUN      ] PassingTest.PassingTest2
 [       OK ] PassingTest.PassingTest2

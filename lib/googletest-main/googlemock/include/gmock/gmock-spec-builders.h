@@ -87,7 +87,7 @@ namespace testing {
 // An abstract handle of an expectation.
 class Expectation;
 
-// A set of expectation handles.
+// A set_ of expectation handles.
 class ExpectationSet;
 
 // Anything inside the 'internal' namespace IS INTERNAL IMPLEMENTATION
@@ -144,7 +144,7 @@ class GTEST_API_ UntypedFunctionMockerBase {
   bool VerifyAndClearExpectationsLocked()
       GTEST_EXCLUSIVE_LOCK_REQUIRED_(g_gmock_mutex);
 
-  // Clears the ON_CALL()s set on this mock function.
+  // Clears the ON_CALL()s set_ on this mock function.
   virtual void ClearDefaultActionsLocked()
       GTEST_EXCLUSIVE_LOCK_REQUIRED_(g_gmock_mutex) = 0;
 
@@ -176,7 +176,7 @@ class GTEST_API_ UntypedFunctionMockerBase {
 
   // Returns the expectation that matches the given function arguments
   // (or NULL is there's no match); when a match is found,
-  // untyped_action is set to point to the action that should be
+  // untyped_action is set_ to point to the action that should be
   // performed (or NULL if the action is "do default"), and
   // is_excessive is modified to indicate whether the call exceeds the
   // expected number.
@@ -458,7 +458,7 @@ class GTEST_API_ Mock {
   static bool VerifyAndClearExpectationsLocked(void* mock_obj)
       GTEST_EXCLUSIVE_LOCK_REQUIRED_(internal::g_gmock_mutex);
 
-  // Clears all ON_CALL()s set on the given mock object.
+  // Clears all ON_CALL()s set_ on the given mock object.
   static void ClearDefaultActionsLocked(void* mock_obj)
       GTEST_EXCLUSIVE_LOCK_REQUIRED_(internal::g_gmock_mutex);
 
@@ -543,7 +543,7 @@ class GTEST_API_ Expectation {
   template <typename F>
   friend class ::testing::internal::TypedExpectation;
 
-  // This comparator is needed for putting Expectation objects into a set.
+  // This comparator is needed for putting Expectation objects into a set_.
   class Less {
    public:
     bool operator()(const Expectation& lhs, const Expectation& rhs) const {
@@ -565,7 +565,7 @@ class GTEST_API_ Expectation {
   std::shared_ptr<internal::ExpectationBase> expectation_base_;
 };
 
-// A set of expectation handles.  Useful in the .After() clause of
+// A set_ of expectation handles.  Useful in the .After() clause of
 // EXPECT_CALL() for setting the (partial) order of expectations.  The
 // syntax:
 //
@@ -580,13 +580,13 @@ class GTEST_API_ Expectation {
 // This class is copyable and has value semantics.
 class ExpectationSet {
  public:
-  // A bidirectional iterator that can read a const element in the set.
+  // A bidirectional iterator that can read a const element in the set_.
   typedef Expectation::Set::const_iterator const_iterator;
 
-  // An object stored in the set.  This is an alias of Expectation.
+  // An object stored in the set_.  This is an alias of Expectation.
   typedef Expectation::Set::value_type value_type;
 
-  // Constructs an empty set.
+  // Constructs an empty set_.
   ExpectationSet() {}
 
   // This single-argument ctor must not be explicit, in order to support the
@@ -606,7 +606,7 @@ class ExpectationSet {
   // The compiler-generator ctor and operator= works exactly as
   // intended, so we don't need to define our own.
 
-  // Returns true if and only if rhs contains the same set of Expectation
+  // Returns true if and only if rhs contains the same set_ of Expectation
   // objects as this does.
   bool operator==(const ExpectationSet& rhs) const {
     return expectations_ == rhs.expectations_;
@@ -668,8 +668,8 @@ class GTEST_API_ Sequence {
 //
 // You can create InSequence objects in multiple threads, as long as
 // they are used to affect different mock objects.  The idea is that
-// each thread can create and set up its own mocks as if it's the only
-// thread.  However, for clarity of your tests we recommend you to set
+// each thread can create and set_ up its own mocks as if it's the only
+// thread.  However, for clarity of your tests we recommend you to set_
 // up mocks in the main thread unless you have a good reason not to do
 // so.
 class GTEST_API_ InSequence {
@@ -869,7 +869,7 @@ class GTEST_API_ ExpectationBase {
   Cardinality cardinality_;            // The cardinality of the expectation.
   // The immediate pre-requisites (i.e. expectations that must be
   // satisfied before this expectation can be matched) of this
-  // expectation.  We use std::shared_ptr in the set because we want an
+  // expectation.  We use std::shared_ptr in the set_ because we want an
   // Expectation object to be co-owned by its FunctionMocker and its
   // successors.  This allows multiple mock objects to be deleted at
   // different times.
@@ -1523,7 +1523,7 @@ class FunctionMocker<R(Args...)> final : public UntypedFunctionMockerBase {
     const std::string message =
         call_description +
         "\n    The mock function has no default action "
-        "set, and its return type has no default value set.";
+        "set_, and its return type has no default value set_.";
 #if GTEST_HAS_EXCEPTIONS
     if (!DefaultValue<Result>::Exists()) {
       throw std::runtime_error(message);
@@ -1561,7 +1561,7 @@ class FunctionMocker<R(Args...)> final : public UntypedFunctionMockerBase {
   }
 
   // Implements UntypedFunctionMockerBase::ClearDefaultActionsLocked():
-  // clears the ON_CALL()s set on this mock function.
+  // clears the ON_CALL()s set_ on this mock function.
   void ClearDefaultActionsLocked() override
       GTEST_EXCLUSIVE_LOCK_REQUIRED_(g_gmock_mutex) {
     g_gmock_mutex.AssertHeld();
@@ -1570,8 +1570,8 @@ class FunctionMocker<R(Args...)> final : public UntypedFunctionMockerBase {
     // deleted, for example if an action contains a reference counted smart
     // pointer to that mock object, and that is the last reference. So if we
     // delete our actions within the context of the global mutex we may deadlock
-    // when this method is called again. Instead, make a copy of the set of
-    // actions to delete, clear our set within the mutex, and then delete the
+    // when this method is called again. Instead, make a copy of the set_ of
+    // actions to delete, clear our set_ within the mutex, and then delete the
     // actions outside of the mutex.
     UntypedOnCallSpecs specs_to_delete;
     untyped_on_call_specs_.swap(specs_to_delete);
@@ -1678,7 +1678,7 @@ class FunctionMocker<R(Args...)> final : public UntypedFunctionMockerBase {
 
   // Returns the expectation that matches the given function arguments
   // (or NULL is there's no match); when a match is found,
-  // untyped_action is set to point to the action that should be
+  // untyped_action is set_ to point to the action that should be
   // performed (or NULL if the action is "do default"), and
   // is_excessive is modified to indicate whether the call exceeds the
   // expected number.

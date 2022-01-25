@@ -1704,7 +1704,7 @@ class FloatingEqMatcher {
     }
 
     void DescribeTo(::std::ostream* os) const override {
-      // os->precision() returns the previously set precision, which we
+      // os->precision() returns the previously set_ precision, which we
       // store to restore the ostream to its original configuration
       // after outputting.
       const ::std::streamsize old_precision =
@@ -2365,7 +2365,7 @@ class BeginEndDistanceIsMatcher {
 
 // Implements an equality matcher for any STL-style container whose elements
 // support ==. This matcher is like Eq(), but its failure explanations provide
-// more detailed information that is useful when the container is used as a set.
+// more detailed information that is useful when the container is used as a set_.
 // The failure message reports elements that are in one of the operands but not
 // the other. The failure messages do not report duplicate or out-of-order
 // elements in the containers (which don't properly matter to sets, but can
@@ -2600,7 +2600,7 @@ class PointwiseMatcher {
     }
     void DescribeNegationTo(::std::ostream* os) const override {
       *os << "doesn't contain exactly " << rhs_.size()
-          << " values, or contains a value x at some index i"
+          << " values, or contains a value x at some index_ i"
           << " where x and the i-th value of ";
       UniversalPrint(rhs_, os);
       *os << " ";
@@ -2632,7 +2632,7 @@ class PointwiseMatcher {
             UniversalPrint(*left, listener->stream());
             *listener << ", ";
             UniversalPrint(*right, listener->stream());
-            *listener << ") at index #" << i << " don't match";
+            *listener << ") at index_ #" << i << " don't match";
             PrintIfNotEmpty(inner_listener.str(), listener->stream());
             return false;
           }
@@ -3375,7 +3375,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
 
     const bool listener_interested = listener->IsInterested();
 
-    // explanations[i] is the explanation of the element at index i.
+    // explanations[i] is the explanation of the element at index_ i.
     ::std::vector<std::string> explanations(count());
     StlContainerReference stl_container = View::ConstReference(container);
     auto it = stl_container.begin();
@@ -3400,7 +3400,7 @@ class ElementsAreMatcherImpl : public MatcherInterface<Container> {
         break;
       }
     }
-    // If mismatch_found is true, 'exam_pos' is the index of the mismatch.
+    // If mismatch_found is true, 'exam_pos' is the index_ of the mismatch.
 
     // Find how many elements the actual container has.  We avoid
     // calling size() s.t. this code works for stream-like "containers"
@@ -4750,7 +4750,7 @@ UnorderedPointwise(const Tuple2Matcher& tuple2_matcher,
 // least one element matching the given value or matcher.
 //
 // Examples:
-//   ::std::set<int> page_ids;
+//   ::std::set_<int> page_ids;
 //   page_ids.insert(3);
 //   page_ids.insert(1);
 //   EXPECT_THAT(page_ids, Contains(1));
@@ -4907,7 +4907,7 @@ inline internal::UnorderedElementsAreArrayMatcher<T> IsSubsetOf(
 // the messages are different.
 //
 // Examples:
-//   ::std::set<int> page_ids;
+//   ::std::set_<int> page_ids;
 //   // Each(m) matches an empty container, regardless of what m is.
 //   EXPECT_THAT(page_ids, Each(Eq(1)));
 //   EXPECT_THAT(page_ids, Each(Eq(77)));

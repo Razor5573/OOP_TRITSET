@@ -5,6 +5,7 @@
 #include <map>
 #include <unordered_map>
 #include "Trit.h"
+#include <memory>
 
 namespace TernaryLogic {
     static const unsigned int TRIT_BIT_SIZE = 2;
@@ -22,9 +23,28 @@ namespace TernaryLogic {
     };
 
 
-    class TritSet {
+    class ITritSet{
+    private:
+        virtual TernaryLogic::Trit getTrit(unsigned int tritPosition) const = 0;
+        virtual void setTrit(TernaryLogic::Trit tritValue, unsigned int tritPosition) = 0;
+        friend class TritSet;
+    };
+
+    class FakeTritSet : public ITritSet{
+    public:
+        explicit FakeTritSet(TernaryLogic::Trit trit);
+    private:
+        FakeTritSet() = default;
+        TernaryLogic::Trit trit_;
+        Trit getTrit(unsigned int tritPosition) const override;
+        void setTrit(TernaryLogic::Trit tritValue, unsigned int tritPosition) override;
+    };
+
+
+    class TritSet : public ITritSet{
     private:
         std::vector<unsigned int> set_;
+
 
         std::size_t initialSize_;
         std::size_t currentSize_;
@@ -35,9 +55,11 @@ namespace TernaryLogic {
                 {Trit::Unknown, NO_TRITS_AMOUNT}
         };
 
-        [[nodiscard]] TernaryLogic::Trit getTrit(unsigned int tritPosition) const;
+        [[nodiscard]] TernaryLogic::Trit getTrit(unsigned int tritPosition) const override;
 
-        void setTrit(TernaryLogic::Trit tritValue, unsigned int tritPosition);
+        void setTrit(TernaryLogic::Trit tritValue, unsigned int tritPosition) override;
+        void adjustSetSizeAndRecountTrits(const TernaryLogic::Trit tritValue, const unsigned int tritPosition);
+
 
         static std::pair<TritSet, TritSet> createOperands(const TritSet &setA, const TritSet &setB);
 
@@ -46,24 +68,57 @@ namespace TernaryLogic {
     public:
         class Reference {
         private:
-            TritSet &setReference_;
+            ITritSet *setReference_;
             unsigned int indexReference_;
+            bool isFakeRef;
         public:
             friend class TritSet;
 
-            Reference(TritSet &setReference, unsigned int indexReference) :
-                    setReference_(setReference), indexReference_(indexReference) {};
+            Reference(ITritSet *setReference, unsigned int indexReference) :
+                    setReference_(setReference), indexReference_(indexReference) {
+                isFakeRef = false;
+            };
+            Reference(const Reference& anotherRef);
 
             Reference &operator=(TernaryLogic::Trit tritValue);
 
             Reference &operator=(const Reference &reference);
 
             explicit operator TernaryLogic::Trit();
+
+            ~Reference();
         };
+
+        class Iterator{
+        public:
+            Iterator(const Iterator& it);
+
+            Reference operator++(int);
+            Reference operator++();
+            Reference operator--(int);
+            Reference operator--();
+
+            Iterator& operator=(const Iterator& it);
+            bool operator!= (const Iterator& it) const;
+            bool operator== (const Iterator& it) const;
+            Reference& operator* ();
+
+        private:
+            friend TritSet;
+            Iterator(TritSet* set, size_t index);
+            TritSet* set_{};
+            size_t index_{};
+        };
+    private:
+        std::vector<std::shared_ptr<Reference>> memory_;
+    public:
+
 
         TritSet();
 
-        explicit TritSet(size_t tritsNumber);
+        TritSet(size_t tritsNumber);
+
+        TritSet(const TritSet& anotherSet);
 
         ~TritSet() = default;
 
@@ -81,7 +136,8 @@ namespace TernaryLogic {
 
         size_t length() const;
 
-        Reference operator[](unsigned int tritIndex);
+        Reference& operator[](unsigned int tritIndex);
+        Trit operator[](unsigned int tritIndex) const;
 
         TritSet operator~();
 
@@ -90,6 +146,10 @@ namespace TernaryLogic {
         TritSet operator&(const TritSet &anotherSet) const;
 
         std::ostream &operator<<(std::ostream &outputStream) const;
+
+        Iterator begin();
+
+        Iterator end();
     };
 
 

@@ -66,7 +66,7 @@ Now you're ready to build C++ code that uses GoogleTest.
 
 ## Create and run a binary
 
-With your Bazel workspace set up, you can now use GoogleTest code within your
+With your Bazel workspace set_ up, you can now use GoogleTest code within your
 own project.
 
 As an example, create a file named `hello_test.cc` in your `my_workspace`
@@ -116,7 +116,7 @@ INFO: From Testing //:hello_test:
 ==================== Test output for //:hello_test:
 Running main() from gmock_main.cc
 [==========] Running 1 test from 1 test suite.
-[----------] Global test environment set-up.
+[----------] Global test environment set_-up.
 [----------] 1 test from HelloTest
 [ RUN      ] HelloTest.BasicAssertions
 [       OK ] HelloTest.BasicAssertions (0 ms)

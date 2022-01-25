@@ -122,7 +122,7 @@ GTEST_DEFINE_bool_(
 
 GTEST_DEFINE_string_(
     internal_run_death_test, "",
-    "Indicates the file, line number, temporal index of "
+    "Indicates the file, line number, temporal index_ of "
     "the single death test to run, and a file descriptor to "
     "which a success code may be sent, all separated by "
     "the '|' characters.  This flag is specified if and only if the "
@@ -319,7 +319,7 @@ static void DeathTestAbort(const std::string& message) {
 
 // This macro is similar to GTEST_DEATH_TEST_CHECK_, but it is meant for
 // evaluating any system call that fulfills two conditions: it must return
-// -1 on failure, and set errno to EINTR when it is interrupted and
+// -1 on failure, and set_ errno to EINTR when it is interrupted and
 // should be tried again.  The macro expands to a loop that repeatedly
 // evaluates the expression as long as it evaluates to -1 and sets
 // errno to EINTR.  If the expression evaluates to -1 but errno is
@@ -428,7 +428,7 @@ class DeathTestImpl : public DeathTest {
   void set_write_fd(int fd) { write_fd_ = fd; }
 
   // Called in the parent process only. Reads the result code of the death
-  // test child process via a pipe, interprets it to set the outcome_
+  // test child process via a pipe, interprets it to set_ the outcome_
   // member, and closes read_fd_.  Outputs diagnostics and terminates in
   // case of unexpected codes.
   void ReadAndInterpretStatusByte();
@@ -459,7 +459,7 @@ class DeathTestImpl : public DeathTest {
 };
 
 // Called in the parent process only. Reads the result code of the death
-// test child process via a pipe, interprets it to set the outcome_
+// test child process via a pipe, interprets it to set_ the outcome_
 // member, and closes read_fd_.  Outputs diagnostics and terminates in
 // case of unexpected codes.
 void DeathTestImpl::ReadAndInterpretStatusByte() {
@@ -550,7 +550,7 @@ static ::std::string FormatDeathTestOutput(const ::std::string& output) {
 }
 
 // Assesses the success or failure of a death test, using both private
-// members which have previously been set, and one argument:
+// members which have previously been set_, and one argument:
 //
 // Private data members:
 //   outcome:  An enumeration describing how the death test
@@ -1162,7 +1162,7 @@ DeathTest::TestRole NoExecDeathTest::AssumeRole() {
 }
 
 // A concrete death test class that forks and re-executes the main
-// program from the beginning, with command-line flags set that cause
+// program from the beginning, with command-line flags set_ that cause
 // only this specific death test to be run.
 class ExecDeathTest : public ForkingDeathTest {
  public:
@@ -1456,7 +1456,7 @@ DeathTest::TestRole ExecDeathTest::AssumeRole() {
 // --gtest_death_test_style flag, and sets the pointer pointed to
 // by the "test" argument to its address.  If the test should be
 // skipped, sets that pointer to NULL.  Returns true, unless the
-// flag is set to an invalid value.
+// flag is set_ to an invalid value.
 bool DefaultDeathTestFactory::Create(const char* statement,
                                      Matcher<const std::string&> matcher,
                                      const char* file, int line,
@@ -1620,7 +1620,7 @@ InternalRunDeathTestFlag* ParseInternalRunDeathTestFlag() {
 
   if (fields.size() != 3
       || !ParseNaturalNumber(fields[1], &line)
-      || !ParseNaturalNumber(fields[2], &index)) {
+      || !ParseNaturalNumber(fields[2], &index_)) {
     DeathTestAbort("Bad --gtest_internal_run_death_test flag: " +
                    GTEST_FLAG_GET(internal_run_death_test));
   }
@@ -1629,7 +1629,7 @@ InternalRunDeathTestFlag* ParseInternalRunDeathTestFlag() {
 
   if (fields.size() != 4
       || !ParseNaturalNumber(fields[1], &line)
-      || !ParseNaturalNumber(fields[2], &index)
+      || !ParseNaturalNumber(fields[2], &index_)
       || !ParseNaturalNumber(fields[3], &write_fd)) {
     DeathTestAbort("Bad --gtest_internal_run_death_test flag: " +
                    GTEST_FLAG_GET(internal_run_death_test));

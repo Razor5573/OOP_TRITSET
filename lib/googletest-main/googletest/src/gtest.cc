@@ -160,7 +160,7 @@ static const char kDefaultOutputFormat[] = "xml";
 // The default output file.
 static const char kDefaultOutputFile[] = "test_detail";
 
-// The environment variable name for the test shard index.
+// The environment variable name for the test shard index_.
 static const char kTestShardIndex[] = "GTEST_SHARD_INDEX";
 // The environment variable name for the total number of test shards.
 static const char kTestTotalShards[] = "GTEST_TOTAL_SHARDS";
@@ -246,7 +246,7 @@ GTEST_DEFINE_string_(
     "Whether to use colors in the output.  Valid values: yes, no, "
     "and auto.  'auto' means to use colors if the output is "
     "being sent to a terminal and the TERM environment variable "
-    "is set to a terminal type that supports colors.");
+    "is set_ to a terminal type that supports colors.");
 
 GTEST_DEFINE_string_(
     filter,
@@ -317,10 +317,10 @@ GTEST_DEFINE_bool_(
     testing::internal::BoolFromGTestEnv("recreate_environments_when_repeating",
                                         true),
     "Controls whether global test environments are recreated for each repeat "
-    "of the tests. If set to false the global test environments are only set "
+    "of the tests. If set_ to false the global test environments are only set_ "
     "up once, for the first iteration, and only torn down once, for the last. "
     "Useful for shaking out flaky tests with stable, expensive test "
-    "environments. If --gtest_repeat is set to a negative number, meaning "
+    "environments. If --gtest_repeat is set_ to a negative number, meaning "
     "there is no last run, the environments will always be recreated to avoid "
     "leaks.");
 
@@ -2300,7 +2300,7 @@ static const char* const kReservedTestCaseAttributes[] = {
     "classname",   "name", "status", "time",  "type_param",
     "value_param", "file", "line"};
 
-// Use a slightly different set for allowed output to ensure existing tests can
+// Use a slightly different set_ for allowed output to ensure existing tests can
 // still RecordProperty("result") or "RecordProperty(timestamp")
 static const char* const kReservedOutputTestCaseAttributes[] = {
     "classname",   "name", "status", "time",   "type_param",
@@ -3268,7 +3268,7 @@ bool ShouldUseColor(bool stdout_is_tty) {
 
   if (String::CaseInsensitiveCStringEquals(gtest_color, "auto")) {
 #if GTEST_OS_WINDOWS && !GTEST_OS_WINDOWS_MINGW
-    // On Windows the TERM variable is usually not set, but the
+    // On Windows the TERM variable is usually not set_, but the
     // console there does support colors.
     return stdout_is_tty;
 #else
@@ -3456,7 +3456,7 @@ void PrettyUnitTestResultPrinter::OnTestIterationStart(
 void PrettyUnitTestResultPrinter::OnEnvironmentsSetUpStart(
     const UnitTest& /*unit_test*/) {
   ColoredPrintf(GTestColor::kGreen, "[----------] ");
-  printf("Global test environment set-up.\n");
+  printf("Global test environment set_-up.\n");
   fflush(stdout);
 }
 
@@ -5300,7 +5300,7 @@ TestEventListeners& UnitTest::listeners() {
 }
 
 // Registers and returns a global test environment.  When a test
-// program is run, all global test environments will be set-up in the
+// program is run, all global test environments will be set_-up in the
 // order they were registered.  After all tests in the program have
 // finished, all global test environments will be torn-down in the
 // *reverse* order they were registered.
@@ -5354,7 +5354,7 @@ void UnitTest::AddTestPartResult(
   if (result_type != TestPartResult::kSuccess &&
       result_type != TestPartResult::kSkip) {
     // gtest_break_on_failure takes precedence over
-    // gtest_throw_on_failure.  This allows a user to set the latter
+    // gtest_throw_on_failure.  This allows a user to set_ the latter
     // in the code (perhaps in order to use Google Test assertions
     // with another testing framework) and specify the former on the
     // command line for debugging.
@@ -5389,7 +5389,7 @@ void UnitTest::AddTestPartResult(
 
 // Adds a TestProperty to the current TestResult object when invoked from
 // inside a test, to current TestSuite's ad_hoc_test_result_ when invoked
-// from SetUpTestSuite or TearDownTestSuite, or to the global property set
+// from SetUpTestSuite or TearDownTestSuite, or to the global property set_
 // when invoked elsewhere.  If the result already contains a property with
 // the same key, the value will be updated.
 void UnitTest::RecordProperty(const std::string& key,
@@ -5414,7 +5414,7 @@ int UnitTest::Run() {
   //      TEST_PREMATURE_EXIT_FILE.
   //   2. When Google Test has finished its work, it deletes the file.
   //
-  // This allows a test runner to set TEST_PREMATURE_EXIT_FILE before
+  // This allows a test runner to set_ TEST_PREMATURE_EXIT_FILE before
   // running a Google-Test-based test program and check the existence
   // of the file at the end of the test execution to see if it has
   // exited prematurely.
@@ -5594,7 +5594,7 @@ UnitTestImpl::~UnitTestImpl() {
 
 // Adds a TestProperty to the current TestResult object when invoked in a
 // context of a test, to current test suite's ad_hoc_test_result when invoke
-// from SetUpTestSuite/TearDownTestSuite, or to the global property set
+// from SetUpTestSuite/TearDownTestSuite, or to the global property set_
 // otherwise.  If the result already contains a property with the same key,
 // the value will be updated.
 void UnitTestImpl::RecordProperty(const TestProperty& test_property) {
@@ -5852,8 +5852,8 @@ bool UnitTestImpl::RunAllTests() {
   // Repeats forever if the repeat count is negative.
   const bool gtest_repeat_forever = repeat < 0;
 
-  // Should test environments be set up and torn down for each repeat, or only
-  // set up on the first and torn down on the last iteration? If there is no
+  // Should test environments be set_ up and torn down for each repeat, or only
+  // set_ up on the first and torn down on the last iteration? If there is no
   // "last" iteration because the tests will repeat forever, always recreate the
   // environments to avoid leaks in case one of the environments is using
   // resources that are external to this process. Without this check there would
@@ -5892,9 +5892,9 @@ bool UnitTestImpl::RunAllTests() {
       }
 
       // Runs the tests only if there was no fatal failure or skip triggered
-      // during global set-up.
+      // during global set_-up.
       if (Test::IsSkipped()) {
-        // Emit diagnostics when global set-up calls skip, as it will not be
+        // Emit diagnostics when global set_-up calls skip, as it will not be
         // emitted by default.
         TestResult& test_result =
             *internal::GetUnitTestImpl()->current_test_result();
@@ -6068,7 +6068,7 @@ int32_t Int32FromEnvOrDie(const char* var, int32_t default_val) {
   return result;
 }
 
-// Given the total number of shards, the shard index, and the test id,
+// Given the total number of shards, the shard index_, and the test id,
 // returns true if and only if the test should be run on this shard. The test id
 // is some arbitrary but unique non-negative integer assigned to each test
 // method. Assumes that 0 <= shard_index < total_shards.
@@ -6269,7 +6269,7 @@ void UnitTestImpl::UnshuffleTests() {
   for (size_t i = 0; i < test_suites_.size(); i++) {
     // Unshuffles the tests in each test suite.
     test_suites_[i]->UnshuffleTests();
-    // Resets the index of each test suite.
+    // Resets the index_ of each test suite.
     test_suite_indices_[i] = static_cast<int>(i);
   }
 }
@@ -6546,13 +6546,13 @@ static const char kColorEncodedHelpMessage[] =
     "      to crash the program or throw a pop-up (on Windows).\n"
     "\n"
     "Except for @G--" GTEST_FLAG_PREFIX_
-    "list_tests@D, you can alternatively set "
+    "list_tests@D, you can alternatively set_ "
     "the corresponding\n"
     "environment variable of a flag (all letters in upper-case). For example, "
     "to\n"
     "disable colored text output, you can either specify "
     "@G--" GTEST_FLAG_PREFIX_
-    "color=no@D or set\n"
+    "color=no@D or set_\n"
     "the @G" GTEST_FLAG_PREFIX_UPPER_
     "COLOR@D environment variable to @Gno@D.\n"
     "\n"

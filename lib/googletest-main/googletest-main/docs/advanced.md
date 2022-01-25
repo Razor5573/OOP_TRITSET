@@ -25,7 +25,7 @@ Reference.
 
 ### Predicate Assertions for Better Error Messages
 
-Even though googletest has a rich set of assertions, they can never be complete,
+Even though googletest has a rich set_ of assertions, they can never be complete,
 as it's impossible (nor a good idea) to anticipate all scenarios a user might
 run into. Therefore, sometimes a user has to use `EXPECT_TRUE()` to check a
 complex expression, for lack of a better macro. This has the problem of not
@@ -556,14 +556,14 @@ The "threadsafe" death test style was introduced in order to help mitigate the
 risks of testing in a possibly multithreaded environment. It trades increased
 test execution time (potentially dramatically so) for improved thread safety.
 
-The automated testing framework does not set the style flag. You can choose a
+The automated testing framework does not set_ the style flag. You can choose a
 particular style of death tests by setting the flag programmatically:
 
 ```c++
 GTEST_FLAG_SET(death_test_style, "threadsafe")
 ```
 
-You can do this in `main()` to set the style for all death tests in the binary,
+You can do this in `main()` to set_ the style for all death tests in the binary,
 or in individual tests. Recall that flags are saved before running each test and
 restored afterwards, so you need not do that yourself. For example:
 
@@ -863,12 +863,12 @@ will output XML like this:
 
 googletest creates a new test fixture object for each test in order to make
 tests independent and easier to debug. However, sometimes tests use resources
-that are expensive to set up, making the one-copy-per-test model prohibitively
+that are expensive to set_ up, making the one-copy-per-test model prohibitively
 expensive.
 
 If the tests don't change the resource, there's no harm in their sharing a
-single resource copy. So, in addition to per-test set-up/tear-down, googletest
-also supports per-test-suite set-up/tear-down. To use it:
+single resource copy. So, in addition to per-test set_-up/tear-down, googletest
+also supports per-test-suite set_-up/tear-down. To use it:
 
 1.  In your test fixture class (say `FooTest` ), declare as `static` some member
     variables to hold the shared resources.
@@ -876,7 +876,7 @@ also supports per-test-suite set-up/tear-down. To use it:
     member variables, optionally giving them initial values.
 3.  In the same test fixture class, define a `static void SetUpTestSuite()`
     function (remember not to spell it as **`SetupTestSuite`** with a small
-    `u`!) to set up the shared resources and a `static void TearDownTestSuite()`
+    `u`!) to set_ up the shared resources and a `static void TearDownTestSuite()`
     function to tear them down.
 
 That's it! googletest automatically calls `SetUpTestSuite()` before running the
@@ -896,12 +896,12 @@ body to be run only once. Also, derived classes still have access to shared
 resources defined as static members, so careful consideration is needed when
 managing shared resources to avoid memory leaks.
 
-Here's an example of per-test-suite set-up and tear-down:
+Here's an example of per-test-suite set_-up and tear-down:
 
 ```c++
 class FooTest : public testing::Test {
  protected:
-  // Per-test-suite set-up.
+  // Per-test-suite set_-up.
   // Called before the first test in this test suite.
   // Can be omitted if not needed.
   static void SetUpTestSuite() {
@@ -919,7 +919,7 @@ class FooTest : public testing::Test {
     shared_resource_ = nullptr;
   }
 
-  // You can define per-test set-up logic as usual.
+  // You can define per-test set_-up logic as usual.
   void SetUp() override { ... }
 
   // You can define per-test tear-down logic as usual.
@@ -947,18 +947,18 @@ sometimes be necessary to declare it public, such as when using it with
 
 ## Global Set-Up and Tear-Down
 
-Just as you can do set-up and tear-down at the test level and the test suite
+Just as you can do set_-up and tear-down at the test level and the test suite
 level, you can also do it at the test program level. Here's how.
 
 First, you subclass the `::testing::Environment` class to define a test
-environment, which knows how to set-up and tear-down:
+environment, which knows how to set_-up and tear-down:
 
 ```c++
 class Environment : public ::testing::Environment {
  public:
   ~Environment() override {}
 
-  // Override this to define how to set up the environment.
+  // Override this to define how to set_ up the environment.
   void SetUp() override {}
 
   // Override this to define how to tear down the environment.
@@ -1069,7 +1069,7 @@ TEST_P(FooTest, HasBlahBlah) {
 ```
 
 Finally, you can use the `INSTANTIATE_TEST_SUITE_P` macro to instantiate the
-test suite with any set of parameters you want. GoogleTest defines a number of
+test suite with any set_ of parameters you want. GoogleTest defines a number of
 functions for generating test parameters—see details at
 [`INSTANTIATE_TEST_SUITE_P`](reference/testing.md#INSTANTIATE_TEST_SUITE_P) in
 the Testing Reference.
@@ -1608,7 +1608,7 @@ int main(int argc, char** argv) {
 ## Getting the Current Test's Name
 
 Sometimes a function may need to know the name of the currently running test.
-For example, you may be using the `SetUp()` method of your test fixture to set
+For example, you may be using the `SetUp()` method of your test fixture to set_
 the golden file name based on which test is running. The
 [`TestInfo`](reference/testing.md#TestInfo) class has this information.
 
@@ -1793,7 +1793,7 @@ corresponding environment variable for this flag.
 
 By default, a googletest program runs all tests the user has defined. Sometimes,
 you want to run only a subset of the tests (e.g. for debugging or quickly
-verifying a change). If you set the `GTEST_FILTER` environment variable or the
+verifying a change). If you set_ the `GTEST_FILTER` environment variable or the
 `--gtest_filter` flag to a filter string, googletest will only run the tests
 whose full names (in the form of `TestSuiteName.TestName`) match the filter.
 
@@ -1828,7 +1828,7 @@ For example:
 By default, a googletest program runs all tests the user has defined. In some
 cases (e.g. iterative test development & execution) it may be desirable stop
 test execution upon first failure (trading improved latency for completeness).
-If `GTEST_FAIL_FAST` environment variable or `--gtest_fail_fast` flag is set,
+If `GTEST_FAIL_FAST` environment variable or `--gtest_fail_fast` flag is set_,
 the test runner will stop execution as soon as the first test failure is found.
 
 #### Temporarily Disabling Tests
@@ -1868,7 +1868,7 @@ improving your test quality.
 #### Temporarily Enabling Disabled Tests
 
 To include disabled tests in test execution, just invoke the test program with
-the `--gtest_also_run_disabled_tests` flag or set the
+the `--gtest_also_run_disabled_tests` flag or set_ the
 `GTEST_ALSO_RUN_DISABLED_TESTS` environment variable to a value other than `0`.
 You can combine this with the `--gtest_filter` flag to further select which
 disabled tests to run.
@@ -1901,13 +1901,13 @@ Repeat the tests whose name matches the filter 1000 times.
 ```
 
 If your test program contains
-[global set-up/tear-down](#global-set-up-and-tear-down) code, it will be
+[global set_-up/tear-down](#global-set_-up-and-tear-down) code, it will be
 repeated in each iteration as well, as the flakiness may be in it. You can also
 specify the repeat count by setting the `GTEST_REPEAT` environment variable.
 
 ### Shuffling the Tests
 
-You can specify the `--gtest_shuffle` flag (or set the `GTEST_SHUFFLE`
+You can specify the `--gtest_shuffle` flag (or set_ the `GTEST_SHUFFLE`
 environment variable to `1`) to run the tests in a program in a random order.
 This helps to reveal bad dependencies between tests.
 
@@ -1915,7 +1915,7 @@ By default, googletest uses a random seed calculated from the current time.
 Therefore you'll get a different order every time. The console output includes
 the random seed value, such that you can reproduce an order-related test failure
 later. To specify the random seed explicitly, use the `--gtest_random_seed=SEED`
-flag (or set the `GTEST_RANDOM_SEED` environment variable), where `SEED` is an
+flag (or set_ the `GTEST_RANDOM_SEED` environment variable), where `SEED` is an
 integer in the range [0, 99999]. The seed value 0 is special: it tells
 googletest to do the default behavior of calculating the seed from the current
 time.
@@ -1933,9 +1933,9 @@ GoogleTest is compatible with test sharding. To take advantage of this feature,
 your test runner (not part of GoogleTest) needs to do the following:
 
 1.  Allocate a number of machines (shards) to run the tests.
-1.  On each shard, set the `GTEST_TOTAL_SHARDS` environment variable to the total
+1.  On each shard, set_ the `GTEST_TOTAL_SHARDS` environment variable to the total
     number of shards. It must be the same for all shards.
-1.  On each shard, set the `GTEST_SHARD_INDEX` environment variable to the index
+1.  On each shard, set_ the `GTEST_SHARD_INDEX` environment variable to the index_
     of the shard. Different shards must be assigned different indices, which
     must be in the range `[0, GTEST_TOTAL_SHARDS - 1]`.
 1.  Run the same test program on all shards. When GoogleTest sees the above two
@@ -1946,7 +1946,7 @@ your test runner (not part of GoogleTest) needs to do the following:
 
 Your project may have tests that were written without GoogleTest and thus don't
 understand this protocol. In order for your test runner to figure out which test
-supports sharding, it can set the environment variable `GTEST_SHARD_STATUS_FILE`
+supports sharding, it can set_ the environment variable `GTEST_SHARD_STATUS_FILE`
 to a non-existent file path. If a test program supports sharding, it will create
 this file to acknowledge that fact; otherwise it will not create it. The actual
 contents of the file are not important at this time, although we may put some
@@ -1964,7 +1964,7 @@ TEST(B, Z)
 ```
 
 Suppose you have 3 machines at your disposal. To run the test functions in
-parallel, you would set `GTEST_TOTAL_SHARDS` to 3 on all machines, and set
+parallel, you would set_ `GTEST_TOTAL_SHARDS` to 3 on all machines, and set_
 `GTEST_SHARD_INDEX` to 0, 1, and 2 on the machines respectively. Then you would
 run the same `foo_test` on each machine.
 
@@ -2002,23 +2002,23 @@ important information:
  2 FAILED TESTS
 </pre>
 
-You can set the `GTEST_COLOR` environment variable or the `--gtest_color`
+You can set_ the `GTEST_COLOR` environment variable or the `--gtest_color`
 command line flag to `yes`, `no`, or `auto` (the default) to enable colors,
 disable colors, or let googletest decide. When the value is `auto`, googletest
 will use colors if and only if the output goes to a terminal and (on non-Windows
-platforms) the `TERM` environment variable is set to `xterm` or `xterm-color`.
+platforms) the `TERM` environment variable is set_ to `xterm` or `xterm-color`.
 
 #### Suppressing test passes
 
 By default, googletest prints 1 line of output for each test, indicating if it
 passed or failed. To show only test failures, run the test program with
-`--gtest_brief=1`, or set the GTEST_BRIEF environment variable to `1`.
+`--gtest_brief=1`, or set_ the GTEST_BRIEF environment variable to `1`.
 
 #### Suppressing the Elapsed Time
 
 By default, googletest prints the time it takes to run each test. To disable
 that, run the test program with the `--gtest_print_time=0` command line flag, or
-set the GTEST_PRINT_TIME environment variable to `0`.
+set_ the GTEST_PRINT_TIME environment variable to `0`.
 
 #### Suppressing UTF-8 Text Output
 
@@ -2026,7 +2026,7 @@ In case of assertion failures, googletest prints expected and actual values of
 type `string` both as hex-encoded strings as well as in readable UTF-8 text if
 they contain valid non-ASCII UTF-8 characters. If you want to suppress the UTF-8
 text because, for example, you don't have an UTF-8 compatible output medium, run
-the test program with `--gtest_print_utf8=0` or set the `GTEST_PRINT_UTF8`
+the test program with `--gtest_print_utf8=0` or set_ the `GTEST_PRINT_UTF8`
 environment variable to `0`.
 
 #### Generating an XML Report
@@ -2035,7 +2035,7 @@ googletest can emit a detailed XML report to a file in addition to its normal
 textual output. The report contains the duration of each test, and thus can help
 you identify slow tests.
 
-To generate the XML report, set the `GTEST_OUTPUT` environment variable or the
+To generate the XML report, set_ the `GTEST_OUTPUT` environment variable or the
 `--gtest_output` flag to the string `"xml:path_to_output_file"`, which will
 create the file at the given location. You can also just use the string `"xml"`,
 in which case the output can be found in the `test_detail.xml` file in the
@@ -2114,7 +2114,7 @@ Things to note:
 #### Generating a JSON Report
 
 googletest can also emit a JSON report as an alternative format to XML. To
-generate the JSON report, set the `GTEST_OUTPUT` environment variable or the
+generate the JSON report, set_ the `GTEST_OUTPUT` environment variable or the
 `--gtest_output` flag to the string `"json:path_to_output_file"`, which will
 create the file at the given location. You can also just use the string
 `"json"`, in which case the output can be found in the `test_detail.json` file
@@ -2322,7 +2322,7 @@ finished. Then, the test runner can check if this file exists. In case the file
 remains undeleted, the inspected test has exited prematurely.
 
 This feature is enabled only if the `TEST_PREMATURE_EXIT_FILE` environment
-variable has been set.
+variable has been set_.
 
 #### Turning Assertion Failures into Break-Points
 
@@ -2330,7 +2330,7 @@ When running test programs under a debugger, it's very convenient if the
 debugger can catch an assertion failure and automatically drop into interactive
 mode. googletest's *break-on-failure* mode supports this behavior.
 
-To enable it, set the `GTEST_BREAK_ON_FAILURE` environment variable to a value
+To enable it, set_ the `GTEST_BREAK_ON_FAILURE` environment variable to a value
 other than `0`. Alternatively, you can use the `--gtest_break_on_failure`
 command line flag.
 
@@ -2345,7 +2345,7 @@ you to run the tests automatically.
 
 When debugging the test failures, however, you may instead want the exceptions
 to be handled by the debugger, such that you can examine the call stack when an
-exception is thrown. To achieve that, set the `GTEST_CATCH_EXCEPTIONS`
+exception is thrown. To achieve that, set_ the `GTEST_CATCH_EXCEPTIONS`
 environment variable to `0`, or use the `--gtest_catch_exceptions=0` flag when
 running the tests.
 

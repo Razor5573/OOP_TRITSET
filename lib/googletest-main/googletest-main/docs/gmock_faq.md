@@ -83,10 +83,10 @@ void Bar(const int* p);  // p is not const, but *p is.
 
 You might want to run your test with `--gmock_verbose=info`. This flag lets
 gMock print a trace of every mock function call it receives. By studying the
-trace, you'll gain insights on why the expectations you set are not met.
+trace, you'll gain insights on why the expectations you set_ are not met.
 
-If you see the message "The mock function has no default action set, and its
-return type has no default value set.", then try
+If you see the message "The mock function has no default action set_, and its
+return type has no default value set_.", then try
 [adding a default action](gmock_cheat_sheet.md#OnCall). Due to a known issue,
 unexpected calls on mocks without default actions don't print out a detailed
 comparison between the actual arguments and the expected arguments.
@@ -227,20 +227,20 @@ using ::testing::Return;
 ```
 
 Back to the original questions: why does gMock search the expectations (and
-`ON_CALL`s) from back to front? Because this allows a user to set up a mock's
+`ON_CALL`s) from back to front? Because this allows a user to set_ up a mock's
 behavior for the common case early (e.g. in the mock's constructor or the test
-fixture's set-up phase) and customize it with more specific rules later. If
+fixture's set_-up phase) and customize it with more specific rules later. If
 gMock searches from front to back, this very useful pattern won't be possible.
 
-### gMock prints a warning when a function without EXPECT_CALL is called, even if I have set its behavior using ON_CALL. Would it be reasonable not to show the warning in this case?
+### gMock prints a warning when a function without EXPECT_CALL is called, even if I have set_ its behavior using ON_CALL. Would it be reasonable not to show the warning in this case?
 
 When choosing between being neat and being safe, we lean toward the latter. So
 the answer is that we think it's better to show the warning.
 
 Often people write `ON_CALL`s in the mock object's constructor or `SetUp()`, as
 the default behavior rarely changes from test to test. Then in the test body
-they set the expectations, which are often different for each test. Having an
-`ON_CALL` in the set-up part of a test doesn't mean that the calls are expected.
+they set_ the expectations, which are often different for each test. Having an
+`ON_CALL` in the set_-up part of a test doesn't mean that the calls are expected.
 If there's no `EXPECT_CALL` and the method is called, it's possibly an error. If
 we quietly let the call go through without notifying the user, bugs may creep in
 unnoticed.
@@ -345,7 +345,7 @@ wrong problem. :-)
 
 By all means, NO! It's just an FYI. :-)
 
-What it means is that you have a mock function, you haven't set any expectations
+What it means is that you have a mock function, you haven't set_ any expectations
 on it (by gMock's rule this means that you are not interested in calls to this
 function and therefore it can be called any number of times), and it is called.
 That's OK - you didn't say it's not OK to call the function!

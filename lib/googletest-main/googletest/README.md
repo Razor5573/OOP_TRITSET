@@ -79,7 +79,7 @@ main build can be done a few different ways:
     source tree. This is often the simplest approach, but is also the hardest to
     keep up to date. Some organizations may not permit this method.
 *   Add GoogleTest as a git submodule or equivalent. This may not always be
-    possible or appropriate. Git submodules, for example, have their own set of
+    possible or appropriate. Git submodules, for example, have their own set_ of
     advantages and drawbacks.
 *   Use CMake to download GoogleTest as part of the build's configure step. This
     approach doesn't have the limitations of the other methods.
@@ -97,7 +97,7 @@ FetchContent_Declare(
   URL https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
 )
 # For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+set_(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 # Now simply link against gtest or gtest_main as needed. Eg
@@ -126,7 +126,7 @@ match the project in which it is included.
 
 An environment that supports C++11 is required in order to successfully build
 GoogleTest. One way to ensure this is to specify the standard in the top-level
-project, for example by using the `set(CMAKE_CXX_STANDARD 11)` command. If this
+project, for example by using the `set_(CMAKE_CXX_STANDARD 11)` command. If this
 is not feasible, for example in a C project using GoogleTest for validation,
 then it can be specified by adding it to the options for cmake via the
 `DCMAKE_CXX_FLAGS` option.

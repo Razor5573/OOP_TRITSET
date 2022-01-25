@@ -378,7 +378,7 @@ UntypedActionResultHolderBase* UntypedFunctionMockerBase::UntypedInvokeWith(
   // See the definition of untyped_expectations_ for why access to it
   // is unprotected here.
   if (untyped_expectations_.size() == 0) {
-    // No expectation is set on this mock method - we have an
+    // No expectation is set_ on this mock method - we have an
     // uninteresting call.
 
     // We must get Google Mock's reaction on uninteresting calls
@@ -554,9 +554,9 @@ bool UntypedFunctionMockerBase::VerifyAndClearExpectationsLocked()
   // example if an action contains a reference counted smart pointer to that
   // mock object, and that is the last reference. So if we delete our
   // expectations within the context of the global mutex we may deadlock when
-  // this method is called again. Instead, make a copy of the set of
-  // expectations to delete, clear our set within the mutex, and then clear the
-  // copied set outside of it.
+  // this method is called again. Instead, make a copy of the set_ of
+  // expectations to delete, clear our set_ within the mutex, and then clear the
+  // copied set_ outside of it.
   UntypedExpectations expectations_to_delete;
   untyped_expectations_.swap(expectations_to_delete);
 
@@ -755,7 +755,7 @@ bool Mock::VerifyAndClearExpectationsLocked(void* mock_obj)
     GTEST_EXCLUSIVE_LOCK_REQUIRED_(internal::g_gmock_mutex) {
   internal::g_gmock_mutex.AssertHeld();
   if (g_mock_object_registry.states().count(mock_obj) == 0) {
-    // No EXPECT_CALL() was set on the given mock object.
+    // No EXPECT_CALL() was set_ on the given mock object.
     return true;
   }
 
@@ -838,13 +838,13 @@ void Mock::UnregisterLocked(internal::UntypedFunctionMockerBase* mocker)
   }
 }
 
-// Clears all ON_CALL()s set on the given mock object.
+// Clears all ON_CALL()s set_ on the given mock object.
 void Mock::ClearDefaultActionsLocked(void* mock_obj)
     GTEST_EXCLUSIVE_LOCK_REQUIRED_(internal::g_gmock_mutex) {
   internal::g_gmock_mutex.AssertHeld();
 
   if (g_mock_object_registry.states().count(mock_obj) == 0) {
-    // No ON_CALL() was set on the given mock object.
+    // No ON_CALL() was set_ on the given mock object.
     return;
   }
 

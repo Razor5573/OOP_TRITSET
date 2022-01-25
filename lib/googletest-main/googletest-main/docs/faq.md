@@ -244,7 +244,7 @@ class FooTest : public BaseTest {
  protected:
   void SetUp() override {
     BaseTest::SetUp();  // Sets up the base fixture first.
-    ... additional set-up work ...
+    ... additional set_-up work ...
   }
 
   void TearDown() override {
@@ -292,7 +292,7 @@ Sometimes this is impossible as some library you must use may be creating
 threads before `main()` is even reached. In this case, you can try to minimize
 the chance of conflicts by either moving as many activities as possible inside
 `EXPECT_DEATH()` (in the extreme case, you want to move everything inside), or
-leaving as few things as possible in it. Also, you can try to set the death test
+leaving as few things as possible in it. Also, you can try to set_ the death test
 style to `"threadsafe"`, which is safer but slower, and see if it helps.
 
 If you go with thread-safe death tests, remember that they rerun the test
@@ -310,7 +310,7 @@ fixture object across multiple tests. For each `TEST_F`, googletest will create
 a **fresh** test fixture object, immediately call `SetUp()`, run the test body,
 call `TearDown()`, and then delete the test fixture object.
 
-When you need to write per-test set-up and tear-down logic, you have the choice
+When you need to write per-test set_-up and tear-down logic, you have the choice
 between using the test fixture constructor/destructor or `SetUp()/TearDown()`.
 The former is usually preferred, as it has the following benefits:
 
@@ -335,7 +335,7 @@ You may still want to use `SetUp()/TearDown()` in the following cases:
     to call a method that will be overridden in a derived class, you have to use
     `SetUp()/TearDown()`.
 *   In the body of a constructor (or destructor), it's not possible to use the
-    `ASSERT_xx` macros. Therefore, if the set-up operation could cause a fatal
+    `ASSERT_xx` macros. Therefore, if the set_-up operation could cause a fatal
     test failure that should prevent the test from running, it's necessary to
     use `abort` and abort the whole test
     executable, or to use `SetUp()` instead of a constructor.
@@ -462,7 +462,7 @@ There are several good reasons:
 1.  It's likely your test needs to change the states of its global variables.
     This makes it difficult to keep side effects from escaping one test and
     contaminating others, making debugging difficult. By using fixtures, each
-    test has a fresh set of variables that's different (but with the same
+    test has a fresh set_ of variables that's different (but with the same
     names). Thus, tests are kept independent of each other.
 2.  Global variables pollute the global namespace.
 3.  Test fixtures can be reused via subclassing, which cannot be done easily
@@ -549,9 +549,9 @@ runs on, you shouldn't depend on this.
 
 googletest does not interleave tests from different test suites. That is, it
 runs all tests in one test suite first, and then runs all tests in the next test
-suite, and so on. googletest does this because it needs to set up a test suite
+suite, and so on. googletest does this because it needs to set_ up a test suite
 before the first test in it is run, and tear it down afterwards. Splitting up
-the test case would require multiple set-up and tear-down processes, which is
+the test case would require multiple set_-up and tear-down processes, which is
 inefficient and makes the semantics unclean.
 
 If we were to determine the order of tests based on test name instead of test

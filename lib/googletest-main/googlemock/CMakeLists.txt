@@ -125,12 +125,12 @@ install_project(gmock gmock_main)
 # You can skip this section if you aren't interested in testing
 # Google Mock itself.
 #
-# The tests are not built by default.  To build them, set the
+# The tests are not built by default.  To build them, set_ the
 # gmock_build_tests option to ON.  You can do it by running ccmake
 # or specifying the -Dgmock_build_tests=ON flag when running cmake.
 
 if (gmock_build_tests)
-  # This must be set in the root directory for the tests to be run by
+  # This must be set_ in the root directory for the tests to be run by
   # 'make test' or ctest.
   enable_testing()
 

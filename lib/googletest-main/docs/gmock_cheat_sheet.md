@@ -98,7 +98,7 @@ The typical work flow is:
 1.  Import the gMock names you need to use. All gMock symbols are in the
     `testing` namespace unless they are macros or otherwise noted.
 2.  Create the mock objects.
-3.  Optionally, set the default actions of the mock objects.
+3.  Optionally, set_ the default actions of the mock objects.
 4.  Set your expectations on the mock objects (How will they be called? What
     will they do?).
 5.  Exercise code that uses the mock objects; if necessary, check the result
@@ -202,12 +202,12 @@ using ::testing::Mock;
 Mock::VerifyAndClearExpectations(&mock_obj);
 ...
 // Verifies and removes the expectations on mock_obj;
-// also removes the default actions set by ON_CALL();
+// also removes the default actions set_ by ON_CALL();
 // returns true if and only if successful.
 Mock::VerifyAndClear(&mock_obj);
 ```
 
-Do not set new expectations after verifying and clearing a mock after its use.
+Do not set_ new expectations after verifying and clearing a mock after its use.
 Setting expectations after code that exercises the mock has undefined behavior.
 See [Using Mocks in Tests](gmock_for_dummies.md#using-mocks-in-tests) for more
 information.

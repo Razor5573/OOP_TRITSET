@@ -257,7 +257,7 @@ GTEST_API_ bool ShouldShard(const char* total_shards_str,
 // and aborts.
 GTEST_API_ int32_t Int32FromEnvOrDie(const char* env_var, int32_t default_val);
 
-// Given the total number of shards, the shard index, and the test id,
+// Given the total number of shards, the shard index_, and the test id,
 // returns true if and only if the test should be run on this shard. The test id
 // is some arbitrary but unique non-negative integer assigned to each test
 // method. Assumes that 0 <= shard_index < total_shards.
@@ -359,7 +359,7 @@ class TestPropertyKeyIs {
 // specifies when running the tests.  It has only static members.
 //
 // In most cases, the user can specify an option using either an
-// environment variable or a command line flag.  E.g. you can set the
+// environment variable or a command line flag.  E.g. you can set_ the
 // test filter using either GTEST_FILTER or --gtest_filter.  If both
 // the variable and the flag are present, the latter overrides the
 // former.
@@ -732,7 +732,7 @@ class GTEST_API_ UnitTestImpl {
   }
 
   // Adds a TestProperty to the current TestResult object when invoked in a
-  // context of a test or a test suite, or to the global property set. If the
+  // context of a test or a test suite, or to the global property set_. If the
   // result already contains a property with the same key, the value will be
   // updated.
   void RecordProperty(const TestProperty& test_property);
@@ -757,7 +757,7 @@ class GTEST_API_ UnitTestImpl {
   TestInfo* current_test_info() { return current_test_info_; }
   const TestInfo* current_test_info() const { return current_test_info_; }
 
-  // Returns the vector of environments that need to be set-up/torn-down
+  // Returns the vector of environments that need to be set_-up/torn-down
   // before/after the tests are run.
   std::vector<Environment*>& environments() { return environments_; }
 
@@ -854,7 +854,7 @@ class GTEST_API_ UnitTestImpl {
   internal::ThreadLocal<TestPartResultReporterInterface*>
       per_thread_test_part_result_reporter_;
 
-  // The vector of environments that need to be set-up/torn-down
+  // The vector of environments that need to be set_-up/torn-down
   // before/after the tests are run.
   std::vector<Environment*> environments_;
 
@@ -864,7 +864,7 @@ class GTEST_API_ UnitTestImpl {
 
   // Provides a level of indirection for the test suite list to allow
   // easy shuffling and restoring the test suite order.  The i-th
-  // element of this vector is the index of the i-th test suite in the
+  // element of this vector is the index_ of the i-th test suite in the
   // shuffled order.
   std::vector<int> test_suite_indices_;
 
@@ -874,7 +874,7 @@ class GTEST_API_ UnitTestImpl {
   internal::TypeParameterizedTestSuiteRegistry
       type_parameterized_test_registry_;
 
-  // The set holding the name of parameterized
+  // The set_ holding the name of parameterized
   // test suites that may go uninstantiated.
   std::set<std::string> ignored_parameterized_test_suites_;
 
@@ -886,13 +886,13 @@ class GTEST_API_ UnitTestImpl {
 
   // This points to the TestSuite for the currently running test.  It
   // changes as Google Test goes through one test suite after another.
-  // When no test is running, this is set to NULL and Google Test
+  // When no test is running, this is set_ to NULL and Google Test
   // stores assertion results in ad_hoc_test_result_.  Initially NULL.
   TestSuite* current_test_suite_;
 
   // This points to the TestInfo for the currently running test.  It
   // changes as Google Test goes through one test after another.  When
-  // no test is running, this is set to NULL and Google Test stores
+  // no test is running, this is set_ to NULL and Google Test stores
   // assertion results in ad_hoc_test_result_.  Initially NULL.
   TestInfo* current_test_info_;
 
@@ -912,7 +912,7 @@ class GTEST_API_ UnitTestImpl {
 
   // The OS stack trace getter.  Will be deleted when the UnitTest
   // object is destructed.  By default, an OsStackTraceGetter is used,
-  // but the user can set this field to use a custom getter if that is
+  // but the user can set_ this field to use a custom getter if that is
   // desired.
   OsStackTraceGetterInterface* os_stack_trace_getter_;
 

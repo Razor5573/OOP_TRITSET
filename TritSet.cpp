@@ -32,17 +32,18 @@ TernaryLogic::Trit TernaryLogic::TritSet::getTrit(const unsigned int tritPositio
 }
 
 void TernaryLogic::TritSet::setTrit(const TernaryLogic::Trit tritValue, const unsigned int tritPosition) {
-    --tritValuesCountsMap_[getTrit(tritPosition)];
+    auto sizeBeforeChanging = getSize();
+    adjustSetSizeAndRecountTrits(tritValue, tritPosition);
 
-    size_t elementIndex = tritPosition * TRIT_BIT_SIZE / (sizeof(unsigned int) * BITS_IN_ONE_BYTE_NUMBER);
-    size_t initialElementTritBit = tritPosition * TRIT_BIT_SIZE % (sizeof(unsigned int) * BITS_IN_ONE_BYTE_NUMBER);
-    unsigned int offset = (TRITS_IN_ONE_UINT_NUMBER - 1) * TRIT_BIT_SIZE - initialElementTritBit;
+    if(tritPosition < sizeBeforeChanging || tritValue != Unknown) {
+        size_t elementIndex = tritPosition * TRIT_BIT_SIZE / (sizeof(unsigned int) * BITS_IN_ONE_BYTE_NUMBER);
+        size_t initialElementTritBit = tritPosition * TRIT_BIT_SIZE % (sizeof(unsigned int) * BITS_IN_ONE_BYTE_NUMBER);
+        unsigned int offset = (TRITS_IN_ONE_UINT_NUMBER - 1) * TRIT_BIT_SIZE - initialElementTritBit;
 
-    unsigned int bitMask = ~((unsigned int) 3 << offset);
-    set_[elementIndex] &= bitMask;
-    set_[elementIndex] |= ((unsigned int) tritValue << offset);
-
-    ++tritValuesCountsMap_[getTrit(tritPosition)];
+        unsigned int bitMask = ~((unsigned int) 3 << offset);
+        set_[elementIndex] &= bitMask;
+        set_[elementIndex] |= ((unsigned int) tritValue << offset);
+    }
 }
 
 std::pair<TernaryLogic::TritSet, TernaryLogic::TritSet>
@@ -142,8 +143,10 @@ size_t TernaryLogic::TritSet::length() const {
     return (lastSetTritIndex + 1);
 }
 
-TernaryLogic::TritSet::Reference TernaryLogic::TritSet::operator[](const unsigned int tritIndex) {
-    return Reference(*this, tritIndex);
+TernaryLogic::TritSet::Reference& TernaryLogic::TritSet::operator[](const unsigned int tritIndex) {
+    auto* ref = new Reference(this, tritIndex);
+    memory_.push_back(std::shared_ptr<Reference>(ref));
+    return *ref;
 }
 
 TernaryLogic::TritSet TernaryLogic::TritSet::operator~()  {
@@ -191,30 +194,133 @@ std::ostream &TernaryLogic::TritSet::operator<<(std::ostream &outputStream) cons
     return outputStream;
 }
 
-TernaryLogic::TritSet::Reference &TernaryLogic::TritSet::Reference::operator=(const TernaryLogic::Trit tritValue) {
-    if (indexReference_ < setReference_.getSize()) {
-        setReference_.setTrit(tritValue, indexReference_);
-    } else if (tritValue != Unknown) {
-        size_t increaseUnknownTritsCount = (indexReference_ + 1) - setReference_.getSize();
-        setReference_.tritValuesCountsMap_[Unknown] += increaseUnknownTritsCount;
-        setReference_.currentSize_ = indexReference_ + 1;
-        auto newSetElementSize = ceil(((double) setReference_.getSize()) * TRIT_BIT_SIZE
-                                      / BITS_IN_ONE_BYTE_NUMBER / sizeof(unsigned int));
-        setReference_.set_.resize(newSetElementSize);
-        setReference_.setTrit(tritValue, indexReference_);
-    }
 
+
+void TernaryLogic::TritSet::adjustSetSizeAndRecountTrits(const TernaryLogic::Trit tritValue, const unsigned int tritPosition) {
+    auto sizeBeforeChanging = getSize();
+    if (tritPosition >= sizeBeforeChanging && tritValue != Unknown) {
+        size_t increaseUnknownTritsCount = (tritPosition + 1) - getSize();
+        tritValuesCountsMap_[Unknown] += increaseUnknownTritsCount;
+        currentSize_ = tritPosition + 1;
+        auto newSetElementSize = ceil(((double) getSize()) * TRIT_BIT_SIZE
+                                      / BITS_IN_ONE_BYTE_NUMBER / sizeof(unsigned int));
+        set_.resize(newSetElementSize);
+    }
+    if(tritPosition < sizeBeforeChanging || tritValue != Unknown) {
+        --tritValuesCountsMap_[getTrit(tritPosition)];
+        ++tritValuesCountsMap_[tritValue];
+    }
+}
+
+TernaryLogic::TritSet::Iterator TernaryLogic::TritSet::begin() {
+    return {this, 0};
+}
+
+TernaryLogic::TritSet::Iterator TernaryLogic::TritSet::end() {
+    return {this, getSize()};
+}
+
+TernaryLogic::TritSet::TritSet(const TernaryLogic::TritSet &anotherSet) {
+    initialSize_ = 0;
+    currentSize_ = 0;
+    set_.resize(initialSize_, static_cast<unsigned int>(TernaryLogic::Trit::Unknown));
+    for(int i = 0; i < anotherSet.getSize(); i++){
+        (*this)[i] = anotherSet[i];
+    }
+}
+
+TernaryLogic::Trit TernaryLogic::TritSet::operator[](unsigned int tritIndex) const {
+    return getTrit(tritIndex);
+}
+
+
+TernaryLogic::TritSet::Reference &TernaryLogic::TritSet::Reference::operator=(const TernaryLogic::Trit tritValue) {
+    setReference_->setTrit(tritValue, indexReference_);
     return *this;
 }
 
 TernaryLogic::TritSet::Reference &
 TernaryLogic::TritSet::Reference::operator=(const TernaryLogic::TritSet::Reference &reference) {
-    auto newTritValue = reference.setReference_.getTrit(reference.indexReference_);
-    setReference_.setTrit(newTritValue, indexReference_);
+    auto tritValue = reference.setReference_->getTrit(reference.indexReference_);
+    setReference_->setTrit(tritValue, indexReference_);
     return *this;
 }
 
 TernaryLogic::TritSet::Reference::operator TernaryLogic::Trit() {
-    return setReference_.getTrit(indexReference_);
+    return setReference_->getTrit(indexReference_);
 }
 
+TernaryLogic::TritSet::Reference::Reference(const TernaryLogic::TritSet::Reference &anotherRef) {
+    setReference_ = new FakeTritSet(anotherRef.setReference_->getTrit(anotherRef.indexReference_));
+    indexReference_ = anotherRef.indexReference_;
+    isFakeRef = true;
+}
+
+TernaryLogic::TritSet::Reference::~Reference() {
+    if(isFakeRef)
+        delete setReference_;
+}
+
+TernaryLogic::Trit TernaryLogic::FakeTritSet::getTrit(unsigned int tritPosition) const {
+    return trit_;
+}
+
+void TernaryLogic::FakeTritSet::setTrit(TernaryLogic::Trit tritValue, unsigned int tritPosition) {
+    trit_ = tritValue;
+}
+
+TernaryLogic::FakeTritSet::FakeTritSet(TernaryLogic::Trit trit) {
+    this->trit_ = trit;
+}
+
+TernaryLogic::TritSet::Iterator::Iterator(const TernaryLogic::TritSet::Iterator &it) {
+    this->set_ = it.set_;
+    this->index_ = it.index_;
+}
+
+TernaryLogic::TritSet::Reference TernaryLogic::TritSet::Iterator::operator++(int) {
+    if(index_ > (*set_).getSize() && index_ < 0)
+        throw std::out_of_range("out of range set_");
+    return (*set_)[index_++];
+}
+
+TernaryLogic::TritSet::Reference TernaryLogic::TritSet::Iterator::operator--(int) {
+    if(index_ > (*set_).getSize() && index_ < 0)
+        throw std::out_of_range("out of range set_");
+    return (*set_)[index_--];
+}
+
+TernaryLogic::TritSet::Reference TernaryLogic::TritSet::Iterator::operator++() {
+    if(index_ > (*set_).getSize() && index_ < 0)
+        throw std::out_of_range("out of range set_");
+    return (*set_)[++index_];
+}
+
+TernaryLogic::TritSet::Reference TernaryLogic::TritSet::Iterator::operator--() {
+    if(index_ > (*set_).getSize() && index_ < 0)
+        throw std::out_of_range("out of range set_");
+    return (*set_)[--index_];
+}
+
+TernaryLogic::TritSet::Iterator& TernaryLogic::TritSet::Iterator::operator=(const TernaryLogic::TritSet::Iterator &it) {
+    this->index_ = it.index_;
+    this->set_ = it.set_;
+    return *this;
+}
+
+bool TernaryLogic::TritSet::Iterator::operator!=(const TernaryLogic::TritSet::Iterator &it) const {
+    return this->index_ != it.index_;
+}
+
+bool TernaryLogic::TritSet::Iterator::operator==(const TernaryLogic::TritSet::Iterator &it) const {
+    return this->index_ == it.index_;
+}
+
+TernaryLogic::TritSet::Reference& TernaryLogic::TritSet::Iterator::operator*() {
+    return (*set_)[index_];
+}
+
+TernaryLogic::TritSet::Iterator::Iterator(TernaryLogic::TritSet *set, size_t index) {
+    this->set_ = set;
+    this->index_ = index;
+}

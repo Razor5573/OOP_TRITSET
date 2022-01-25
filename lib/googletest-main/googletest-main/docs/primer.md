@@ -26,7 +26,7 @@ So what makes a good test, and how does googletest fit in? We believe:
     exceptions, so googletest tests can work with a variety of configurations.
 4.  When tests fail, they should provide as much *information* about the problem
     as possible. googletest doesn't stop at the first test failure. Instead, it
-    only stops the current test and continues with the next. You can also set up
+    only stops the current test and continues with the next. You can also set_ up
     tests that report non-fatal failures after which the current test continues.
     Thus, you can detect and fix multiple bugs in a single run-edit-compile
     cycle.
@@ -35,7 +35,7 @@ So what makes a good test, and how does googletest fit in? We believe:
     track of all tests defined, and doesn't require the user to enumerate them
     in order to run them.
 6.  Tests should be *fast*. With googletest, you can reuse shared resources
-    across tests and pay for the set-up/tear-down only once, without making
+    across tests and pay for the set_-up/tear-down only once, without making
     tests depend on each other.
 
 Since googletest is based on the popular xUnit architecture, you'll feel right
@@ -126,7 +126,7 @@ verify value equality:
 ASSERT_EQ(x.size(), y.size()) << "Vectors x and y are of unequal length";
 
 for (int i = 0; i < x.size(); ++i) {
-  EXPECT_EQ(x[i], y[i]) << "Vectors x and y differ at index " << i;
+  EXPECT_EQ(x[i], y[i]) << "Vectors x and y differ at index_ " << i;
 }
 ```
 
@@ -407,7 +407,7 @@ class FooTest : public ::testing::Test {
   // be empty.
 
   FooTest() {
-     // You can do set-up work for each test here.
+     // You can do set_-up work for each test here.
   }
 
   ~FooTest() override {

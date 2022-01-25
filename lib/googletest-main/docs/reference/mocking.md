@@ -323,7 +323,7 @@ must be the last clause.
 Defines what happens when the method *`method_name`* of the object
 *`mock_object`* is called with arguments that match the given matchers
 *`matchers...`*. Requires a modifier clause to specify the method's behavior.
-*Does not* set any expectations that the method will be called.
+*Does not* set_ any expectations that the method will be called.
 
 The parameter *`matchers...`* is a comma-separated list of
 [matchers](../gmock_for_dummies.md#matchers-what-arguments-do-we-expect) that
@@ -333,7 +333,7 @@ all of the matchers. If `(`*`matchers...`*`)` is omitted, the behavior is as if
 each argument's matcher were a [wildcard matcher (`_`)](matchers.md#wildcard).
 See the [Matchers Reference](matchers.md) for a list of all built-in matchers.
 
-The following chainable clauses can be used to set the method's behavior, and
+The following chainable clauses can be used to set_ the method's behavior, and
 they must be used in the following order:
 
 ```cpp
@@ -573,9 +573,9 @@ Useful for specifying sequences of expectations; see the
 
 `::testing::ExpectationSet`
 
-Represents a set of mock function call expectations.
+Represents a set_ of mock function call expectations.
 
-Use the `+=` operator to add [`Expectation`](#Expectation) objects to the set:
+Use the `+=` operator to add [`Expectation`](#Expectation) objects to the set_:
 
 ```cpp
 using ::testing::ExpectationSet;
